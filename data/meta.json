@@ -1,0 +1,15 @@
+{
+  "scenario_name": "Daryab River Flood (SIMULATED)",
+  "scenario_now": "2026-08-15T12:00:00+05:00",
+  "timezone": "UTC+05:00",
+  "center_latitude": 31.6,
+  "center_longitude": 74.3,
+  "disclaimer": "All data is SIMULATED for demonstration. Names, places, numbers and events are invented. ReliefMesh AI is a decision-support prototype.",
+  "answer_key_fields": [
+    "true_incident_id",
+    "label",
+    "expected_priority",
+    "expected_confidence_band",
+    "report_ids"
+  ]
+}

@@ -1,0 +1,119 @@
+[
+  {
+    "shelter_id": "SH-01",
+    "name": "Girls High School Shelter",
+    "latitude": 31.588,
+    "longitude": 74.312,
+    "capacity": 200,
+    "current_occupancy": 120,
+    "status": "open",
+    "road_accessible": true,
+    "facilities": [
+      "water",
+      "food",
+      "medical_corner",
+      "women_section"
+    ]
+  },
+  {
+    "shelter_id": "SH-02",
+    "name": "Community Hall Block A",
+    "latitude": 31.6,
+    "longitude": 74.32,
+    "capacity": 80,
+    "current_occupancy": 75,
+    "status": "open",
+    "road_accessible": true,
+    "facilities": [
+      "water",
+      "food"
+    ]
+  },
+  {
+    "shelter_id": "SH-03",
+    "name": "Municipal Stadium Hall",
+    "latitude": 31.57,
+    "longitude": 74.32,
+    "capacity": 500,
+    "current_occupancy": 210,
+    "status": "open",
+    "road_accessible": true,
+    "facilities": [
+      "water",
+      "food",
+      "medical_corner",
+      "women_section"
+    ]
+  },
+  {
+    "shelter_id": "SH-04",
+    "name": "Masjid Community Centre",
+    "latitude": 31.592,
+    "longitude": 74.29,
+    "capacity": 120,
+    "current_occupancy": 40,
+    "status": "open",
+    "road_accessible": true,
+    "facilities": [
+      "water",
+      "food",
+      "women_section"
+    ]
+  },
+  {
+    "shelter_id": "SH-05",
+    "name": "College Auditorium",
+    "latitude": 31.58,
+    "longitude": 74.28,
+    "capacity": 150,
+    "current_occupancy": 150,
+    "status": "full",
+    "road_accessible": true,
+    "facilities": [
+      "water",
+      "food",
+      "medical_corner"
+    ]
+  },
+  {
+    "shelter_id": "SH-06",
+    "name": "Railway Colony School",
+    "latitude": 31.599,
+    "longitude": 74.338,
+    "capacity": 100,
+    "current_occupancy": 55,
+    "status": "open",
+    "road_accessible": true,
+    "facilities": [
+      "water",
+      "food"
+    ]
+  },
+  {
+    "shelter_id": "SH-07",
+    "name": "Union Council Office",
+    "latitude": 31.607,
+    "longitude": 74.3,
+    "capacity": 60,
+    "current_occupancy": 0,
+    "status": "closed",
+    "road_accessible": false,
+    "facilities": []
+  },
+  {
+    "shelter_id": "SH-08",
+    "name": "Sports Complex Shelter",
+    "latitude": 31.564,
+    "longitude": 74.3,
+    "capacity": 300,
+    "current_occupancy": 30,
+    "status": "open",
+    "road_accessible": true,
+    "facilities": [
+      "water",
+      "food",
+      "medical_corner",
+      "women_section"
+    ]
+  }
+]

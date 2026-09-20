@@ -46,7 +46,7 @@ with col2:
 st.subheader("Build progress")
 st.markdown(
     "- ✅ Phase 1: Project setup\n"
-    "- ⬜ Phase 2: Synthetic disaster dataset\n"
+    "- ✅ Phase 2: Synthetic disaster dataset\n"
     "- ⬜ Phase 3: SQLite database\n"
     "- ⬜ Phase 4+: Dashboard, agents, MCP, approvals..."
 )

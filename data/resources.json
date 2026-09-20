@@ -1,0 +1,155 @@
+[
+  {
+    "resource_id": "RT-A",
+    "name": "Rescue Team A",
+    "resource_type": "rescue_team",
+    "status": "available",
+    "base_name": "Civil Defence Depot",
+    "latitude": 31.59,
+    "longitude": 74.3,
+    "crew_size": 8,
+    "capacity_people": 20,
+    "skills": [
+      "water_rescue",
+      "evacuation",
+      "first_aid"
+    ]
+  },
+  {
+    "resource_id": "RT-B",
+    "name": "Rescue Team B",
+    "resource_type": "rescue_team",
+    "status": "available",
+    "base_name": "Fire Station East",
+    "latitude": 31.595,
+    "longitude": 74.325,
+    "crew_size": 10,
+    "capacity_people": 20,
+    "skills": [
+      "water_rescue",
+      "evacuation",
+      "heavy_rescue"
+    ]
+  },
+  {
+    "resource_id": "RT-C",
+    "name": "Rescue Team C",
+    "resource_type": "rescue_team",
+    "status": "busy",
+    "base_name": "Fire Station West",
+    "latitude": 31.598,
+    "longitude": 74.28,
+    "crew_size": 8,
+    "capacity_people": 20,
+    "skills": [
+      "heavy_rescue",
+      "evacuation"
+    ]
+  },
+  {
+    "resource_id": "BOAT-1",
+    "name": "Rescue Boat 1",
+    "resource_type": "rescue_boat",
+    "status": "available",
+    "base_name": "River Ghat Jetty",
+    "latitude": 31.604,
+    "longitude": 74.302,
+    "crew_size": 3,
+    "capacity_people": 12,
+    "skills": [
+      "water_rescue",
+      "evacuation"
+    ]
+  },
+  {
+    "resource_id": "BOAT-2",
+    "name": "Rescue Boat 2",
+    "resource_type": "rescue_boat",
+    "status": "available",
+    "base_name": "Northern Boat Ramp",
+    "latitude": 31.612,
+    "longitude": 74.312,
+    "crew_size": 3,
+    "capacity_people": 10,
+    "skills": [
+      "water_rescue",
+      "evacuation"
+    ]
+  },
+  {
+    "resource_id": "BOAT-3",
+    "name": "Rescue Boat 3",
+    "resource_type": "rescue_boat",
+    "status": "busy",
+    "base_name": "Kacha Basti Landing",
+    "latitude": 31.601,
+    "longitude": 74.29,
+    "crew_size": 3,
+    "capacity_people": 15,
+    "skills": [
+      "water_rescue",
+      "evacuation"
+    ]
+  },
+  {
+    "resource_id": "AMB-1",
+    "name": "Ambulance 1",
+    "resource_type": "ambulance",
+    "status": "available",
+    "base_name": "City Hospital",
+    "latitude": 31.587,
+    "longitude": 74.315,
+    "crew_size": 2,
+    "capacity_people": 2,
+    "skills": [
+      "patient_transport",
+      "first_aid"
+    ]
+  },
+  {
+    "resource_id": "AMB-2",
+    "name": "Ambulance 2",
+    "resource_type": "ambulance",
+    "status": "available",
+    "base_name": "Field Medical Camp",
+    "latitude": 31.596,
+    "longitude": 74.295,
+    "crew_size": 2,
+    "capacity_people": 2,
+    "skills": [
+      "patient_transport",
+      "first_aid"
+    ]
+  },
+  {
+    "resource_id": "AMB-3",
+    "name": "Ambulance 3",
+    "resource_type": "ambulance",
+    "status": "maintenance",
+    "base_name": "Central Depot",
+    "latitude": 31.58,
+    "longitude": 74.3,
+    "crew_size": 2,
+    "capacity_people": 2,
+    "skills": [
+      "patient_transport",
+      "first_aid"
+    ]
+  },
+  {
+    "resource_id": "MED-1",
+    "name": "Medical Team 1",
+    "resource_type": "medical_team",
+    "status": "available",
+    "base_name": "Field Medical Camp",
+    "latitude": 31.594,
+    "longitude": 74.305,
+    "crew_size": 5,
+    "capacity_people": 0,
+    "skills": [
+      "emergency_medicine",
+      "obstetrics",
+      "triage"
+    ]
+  }
+]

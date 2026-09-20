@@ -1,0 +1,79 @@
+[
+  {
+    "hospital_id": "HOSP-01",
+    "name": "City Hospital",
+    "latitude": 31.586,
+    "longitude": 74.316,
+    "total_beds": 300,
+    "available_beds": 40,
+    "icu_beds_available": 6,
+    "services": [
+      "emergency",
+      "trauma",
+      "icu",
+      "dialysis",
+      "maternity"
+    ],
+    "status": "open"
+  },
+  {
+    "hospital_id": "HOSP-02",
+    "name": "Riverside General Hospital",
+    "latitude": 31.609,
+    "longitude": 74.304,
+    "total_beds": 120,
+    "available_beds": 8,
+    "icu_beds_available": 1,
+    "services": [
+      "emergency",
+      "maternity"
+    ],
+    "status": "open"
+  },
+  {
+    "hospital_id": "HOSP-03",
+    "name": "Model Town Medical Centre",
+    "latitude": 31.571,
+    "longitude": 74.295,
+    "total_beds": 80,
+    "available_beds": 25,
+    "icu_beds_available": 2,
+    "services": [
+      "emergency",
+      "trauma",
+      "icu"
+    ],
+    "status": "open"
+  },
+  {
+    "hospital_id": "HOSP-04",
+    "name": "Railway Hospital",
+    "latitude": 31.5985,
+    "longitude": 74.342,
+    "total_beds": 150,
+    "available_beds": 0,
+    "icu_beds_available": 0,
+    "services": [
+      "emergency",
+      "dialysis",
+      "icu"
+    ],
+    "status": "full"
+  },
+  {
+    "hospital_id": "HOSP-05",
+    "name": "Women and Children Hospital",
+    "latitude": 31.582,
+    "longitude": 74.305,
+    "total_beds": 100,
+    "available_beds": 30,
+    "icu_beds_available": 3,
+    "services": [
+      "emergency",
+      "maternity",
+      "pediatrics",
+      "icu"
+    ],
+    "status": "open"
+  }
+]
