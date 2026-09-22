@@ -1,0 +1,105 @@
+[
+  {
+    "id": "IMG-01",
+    "file": "bridge_flood.png",
+    "report_id": "R-004",
+    "caption": "Flooded bridge, cars stuck, people on the deck (simulated illustration)",
+    "expected": {
+      "flood_water": true,
+      "blocked_road": true,
+      "damaged_structure": false,
+      "vehicles": true,
+      "crowding": true,
+      "hazards": [
+        "rising water",
+        "stranded people"
+      ]
+    }
+  },
+  {
+    "id": "IMG-02",
+    "file": "rooftops_flood.png",
+    "report_id": "R-011",
+    "caption": "Village flooded up to the roofs, people on rooftops (simulated illustration)",
+    "expected": {
+      "flood_water": true,
+      "blocked_road": true,
+      "damaged_structure": false,
+      "vehicles": false,
+      "crowding": true,
+      "hazards": [
+        "deep water",
+        "stranded people"
+      ]
+    }
+  },
+  {
+    "id": "IMG-03",
+    "file": "wall_collapse.png",
+    "report_id": "R-019",
+    "caption": "Collapsed boundary wall with rubble and people nearby (simulated illustration)",
+    "expected": {
+      "flood_water": true,
+      "blocked_road": false,
+      "damaged_structure": true,
+      "vehicles": false,
+      "crowding": false,
+      "hazards": [
+        "rubble",
+        "possible injuries"
+      ]
+    }
+  },
+  {
+    "id": "IMG-04",
+    "file": "bus_underpass.png",
+    "report_id": "R-022",
+    "caption": "Bus in flooded underpass, water up to the windows (simulated illustration)",
+    "expected": {
+      "flood_water": true,
+      "blocked_road": true,
+      "damaged_structure": false,
+      "vehicles": true,
+      "crowding": true,
+      "hazards": [
+        "passengers trapped",
+        "rising water"
+      ]
+    }
+  },
+  {
+    "id": "IMG-05",
+    "file": "embankment_crack.png",
+    "report_id": "R-028",
+    "caption": "Embankment with a crack and seepage, NOT a full breach (simulated illustration)",
+    "expected": {
+      "flood_water": true,
+      "blocked_road": false,
+      "damaged_structure": true,
+      "vehicles": false,
+      "crowding": false,
+      "hazards": [
+        "crack",
+        "seepage",
+        "possible breach"
+      ]
+    }
+  },
+  {
+    "id": "IMG-06",
+    "file": "blocked_road_debris.png",
+    "report_id": "R-039",
+    "caption": "Road blocked by a fallen tree and debris (simulated illustration)",
+    "expected": {
+      "flood_water": true,
+      "blocked_road": true,
+      "damaged_structure": false,
+      "vehicles": false,
+      "crowding": false,
+      "hazards": [
+        "fallen tree",
+        "debris"
+      ]
+    }
+  }
+]

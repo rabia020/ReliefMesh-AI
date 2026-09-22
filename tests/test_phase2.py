@@ -1,183 +1,103 @@
-"""Automated tests for Phase 2 (synthetic disaster dataset)."""
+"""Automated tests for Phase 2 (synthetic dataset)."""
 
 import json
-import re
-from collections import Counter
-from datetime import datetime
 
-import pytest
-
-from database.generate_dataset import DATA_DIR, build_dataset
-
-ARABIC_SCRIPT = re.compile(r"[\u0600-\u06FF]")
-LAT_RANGE = (31.55, 31.65)
-LON_RANGE = (74.25, 74.36)
+from dataset.build import (
+    SEED_DIR,
+    build_dataset,
+    render_json,
+    validate,
+    write_dataset,
+)
 
 
-def load(name):
-    path = DATA_DIR / f"{name}.json"
-    assert path.exists(), f"{path} is missing. Run: python -m database.generate_dataset"
-    return json.loads(path.read_text(encoding="utf-8"))
+def test_dataset_passes_validation():
+    assert validate(build_dataset()) == []
 
 
-@pytest.fixture(scope="module")
-def meta():
-    return load("meta")
+def test_required_counts():
+    ds = build_dataset()
+    assert len(ds["reports"]) == 50
+    assert len(ds["incidents"]) == 20
+    assert len(ds["resources"]) == 10
+    assert len(ds["shelters"]) == 8
+    assert len(ds["hospitals"]) == 5
+    assert sum(1 for r in ds["reports"] if r["image_id"]) == 6
+    assert sum(1 for r in ds["reports"] if r["structured"]) == 5
 
 
-@pytest.fixture(scope="module")
-def reports():
-    return load("reports")
+def test_three_languages_present():
+    langs = {r["language"] for r in build_dataset()["reports"]}
+    assert langs == {"en", "roman_ur", "ur"}
 
 
-@pytest.fixture(scope="module")
-def incidents():
-    return load("incidents")
-
-
-@pytest.fixture(scope="module")
-def resources():
-    return load("resources")
-
-
-@pytest.fixture(scope="module")
-def shelters():
-    return load("shelters")
-
-
-@pytest.fixture(scope="module")
-def hospitals():
-    return load("hospitals")
-
-
-@pytest.fixture(scope="module")
-def roads():
-    return load("blocked_roads")
-
-
-def free_beds(shelter):
-    """Free space in a shelter (0 if it is full or closed)."""
-    if shelter["status"] != "open":
-        return 0
-    return shelter["capacity"] - shelter["current_occupancy"]
-
-
-def test_record_counts(reports, incidents, resources, shelters, hospitals, roads):
-    assert len(reports) == 50
-    assert len(incidents) == 20
-    assert len(resources) == 10
-    assert len(shelters) == 8
-    assert len(hospitals) == 5
-    assert len(roads) == 4
-
-
-def test_unique_ids(reports, incidents, resources, shelters, hospitals, roads):
-    groups = [
-        (reports, "report_id"), (incidents, "incident_id"), (resources, "resource_id"),
-        (shelters, "shelter_id"), (hospitals, "hospital_id"), (roads, "road_id"),
-    ]
-    for records, key in groups:
-        ids = [record[key] for record in records]
-        assert len(ids) == len(set(ids)), f"Duplicate values found in {key}"
-
-
-def test_languages(reports):
-    counts = Counter(r["language"] for r in reports)
-    assert counts["en"] >= 20
-    assert counts["roman_ur"] >= 15
-    assert counts["ur"] >= 8
-    # Urdu-script text must be labelled "ur"; English/Roman Urdu must have no Urdu script.
-    for r in reports:
-        has_urdu_script = bool(ARABIC_SCRIPT.search(r["text"]))
-        assert has_urdu_script == (r["language"] == "ur"), r["report_id"]
-
-
-def test_every_report_links_to_an_incident(reports, incidents):
-    incident_ids = {i["incident_id"] for i in incidents}
-    for r in reports:
-        assert r["true_incident_id"] in incident_ids
-    for i in incidents:
-        linked = [r["report_id"] for r in reports if r["true_incident_id"] == i["incident_id"]]
-        assert len(linked) >= 2, f"{i['incident_id']} has fewer than 2 reports"
-        assert linked == i["report_ids"]
-
-
-def test_duplicate_clusters_exist(incidents):
-    sizes = {i["incident_id"]: len(i["report_ids"]) for i in incidents}
-    assert sizes["INC-101"] == 6
-    assert sum(1 for size in sizes.values() if size >= 3) >= 7
-
-
-def test_conflicts_and_rumours(reports):
-    labels = Counter(r["label"] for r in reports)
-    assert labels["conflicting"] >= 3
-    assert labels["rumor"] >= 1
-    assert labels["correction"] >= 1
-
-
-def test_stale_report_is_old(reports, meta):
-    now = datetime.fromisoformat(meta["scenario_now"])
-    ages_in_hours = {
-        r["report_id"]: (now - datetime.fromisoformat(r["timestamp"])).total_seconds() / 3600
-        for r in reports
-    }
-    assert ages_in_hours["R-006"] > 12          # the old "bridge is passable" report
-    assert all(age >= 0 for age in ages_in_hours.values())  # nothing from the future
-
-
-def test_image_reports(reports):
-    assert sum(1 for r in reports if r["image_file"]) >= 5
-
-
-def test_spec_example_sentence_is_present(reports):
-    assert reports[0]["text"] == (
-        "Pul ke paas 10 families phansi hui hain aur ek pregnant woman ko medical help chahiye."
-    )
-
-
-def test_priority_distribution(incidents):
-    counts = Counter(i["expected_priority"] for i in incidents)
-    assert counts["Critical"] == 5
-    critical_ids = {i["incident_id"] for i in incidents if i["expected_priority"] == "Critical"}
-    assert critical_ids == {"INC-101", "INC-102", "INC-105", "INC-108", "INC-113"}
-
-
-def test_two_boats_available(resources):
-    boats = [
-        r for r in resources
-        if r["resource_type"] == "rescue_boat" and r["status"] == "available"
-    ]
+def test_demo_needs_two_boats_and_five_critical():
+    ds = build_dataset()
+    boats = [r for r in ds["resources"] if r["type"] == "boat" and r["status"] == "available"]
+    critical = [i for i in ds["incidents"] if i["expected_priority"] == "Critical"]
     assert len(boats) == 2
-    assert sum(1 for r in resources if r["status"] == "available") == 7
+    assert len(critical) >= 5
+    # More critical incidents need boats than we have boats (that is the point of the demo).
+    needing_boats = [i for i in critical if "boat" in i["required_resources"]]
+    assert len(needing_boats) > len(boats)
 
 
-def test_shelter_capacity_cases(shelters):
-    can_take_30 = [s for s in shelters if free_beds(s) >= 30]
-    assert len(can_take_30) >= 3
-    assert any(s["status"] == "full" for s in shelters)
-    assert any(s["status"] == "closed" for s in shelters)
-    assert any(s["status"] == "open" and 0 < free_beds(s) < 30 for s in shelters)
+def test_duplicates_and_conflicts_exist():
+    ds = build_dataset()
+    clusters = [i for i in ds["incidents"] if len(i["report_ids"]) >= 3]
+    conflicts = [i for i in ds["incidents"] if i["conflict_note"]]
+    assert len(clusters) >= 5
+    assert len(conflicts) >= 3
 
 
-def test_hospital_cases(hospitals):
-    assert any(h["available_beds"] == 0 for h in hospitals)
-    assert any("dialysis" in h["services"] and h["available_beds"] > 0 for h in hospitals)
-    assert any("maternity" in h["services"] and h["available_beds"] > 0 for h in hospitals)
+def test_demo_batch_is_the_bridge_incident():
+    ds = build_dataset()
+    demo_reports = [r for r in ds["reports"] if r["batch"] == "demo"]
+    assert len(demo_reports) == 7
+    assert all(ds["answer_key"][r["id"]]["incident_id"] == "INC-001" for r in demo_reports)
+    not_in_baseline = [i["id"] for i in ds["incidents"] if not i["in_baseline"]]
+    assert not_in_baseline == ["INC-001"]
 
 
-def test_coordinates_inside_area(reports, incidents, resources, shelters, hospitals):
-    points = []
-    for group in (incidents, resources, shelters, hospitals):
-        points += [(p["latitude"], p["longitude"]) for p in group]
-    points += [(r["latitude"], r["longitude"]) for r in reports if r["latitude"] is not None]
-    for lat, lon in points:
-        assert LAT_RANGE[0] <= lat <= LAT_RANGE[1], lat
-        assert LON_RANGE[0] <= lon <= LON_RANGE[1], lon
+def test_generation_is_deterministic():
+    first, second = build_dataset(), build_dataset()
+    for key in first:
+        assert render_json(first[key]) == render_json(second[key])
 
 
-def test_generator_is_reproducible_and_files_are_current():
-    first = build_dataset()
-    second = build_dataset()
-    assert first == second  # building twice gives identical data
-    for name, content in first.items():
-        assert load(name) == content, f"{name}.json is out of date. Re-run the generator."
+def test_write_dataset_creates_files(tmp_path):
+    ds = build_dataset()
+    write_dataset(ds, tmp_path / "seed", tmp_path / "images")
+    json_files = sorted(p.name for p in (tmp_path / "seed").glob("*.json"))
+    assert json_files == sorted(f"{key}.json" for key in ds)
+    for image in ds["images"]:
+        assert (tmp_path / "images" / image["file"]).exists()
+
+
+def test_urdu_survives_json_roundtrip(tmp_path):
+    ds = build_dataset()
+    write_dataset(ds, tmp_path / "seed", tmp_path / "images")
+    loaded = json.loads((tmp_path / "seed" / "reports.json").read_text(encoding="utf-8"))
+    assert loaded == ds["reports"]
+    urdu = [r for r in loaded if r["language"] == "ur"]
+    assert len(urdu) == 13
+    assert any(ord(ch) > 1500 for ch in urdu[0]["text"])
+
+
+def test_committed_seed_files_are_up_to_date():
+    """Fails if you edited the dataset code but forgot to run generate_dataset.py."""
+    ds = build_dataset()
+    for key, value in ds.items():
+        path = SEED_DIR / f"{key}.json"
+        assert path.exists(), f"{path} is missing. Run: python scripts/generate_dataset.py"
+        assert path.read_text(encoding="utf-8") == render_json(value), (
+            f"{path.name} is out of date. Run: python scripts/generate_dataset.py"
+        )
+
+
+def test_validator_catches_bad_data():
+    ds = build_dataset()
+    ds["reports"][0]["language"] = "ur"          # English text labelled as Urdu
+    ds["incidents"][0]["expected_priority"] = "Urgent"   # not a valid priority
+    errors = validate(ds)
+    assert len(errors) >= 2

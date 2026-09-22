@@ -1,0 +1,640 @@
+[
+  {
+    "id": "INC-001",
+    "title": "Families trapped near Kabul River Bridge, pregnant woman needs medical help",
+    "incident_type": "trapped_residents",
+    "place_id": "L-BRIDGE",
+    "estimated_affected": 40,
+    "vulnerable_people": 1,
+    "medical_emergency": true,
+    "medical_severity": 2,
+    "required_resources": [
+      "boat",
+      "medical_team"
+    ],
+    "isolation": 2,
+    "expected_priority": "Critical",
+    "expected_confidence_range": [
+      85,
+      95
+    ],
+    "in_baseline": false,
+    "conflict_note": "Head count disputed: R-007 says 15-20 people, field form R-006 says 40.",
+    "status": "open",
+    "location_name": "Kabul River Bridge",
+    "lat": 34.0105,
+    "lon": 71.98,
+    "report_ids": [
+      "R-001",
+      "R-002",
+      "R-003",
+      "R-004",
+      "R-005",
+      "R-006",
+      "R-007"
+    ],
+    "first_report_time": "2026-08-14T08:41:00+05:00",
+    "last_report_time": "2026-08-14T09:10:00+05:00"
+  },
+  {
+    "id": "INC-002",
+    "title": "Sadiq Abad villagers stranded on rooftops, children with fever",
+    "incident_type": "trapped_residents",
+    "place_id": "L-SADIQ",
+    "estimated_affected": 60,
+    "vulnerable_people": 3,
+    "medical_emergency": true,
+    "medical_severity": 2,
+    "required_resources": [
+      "boat",
+      "medical_team"
+    ],
+    "isolation": 2,
+    "expected_priority": "Critical",
+    "expected_confidence_range": [
+      85,
+      95
+    ],
+    "in_baseline": true,
+    "status": "open",
+    "conflict_note": null,
+    "location_name": "Sadiq Abad Village",
+    "lat": 34.004,
+    "lon": 71.965,
+    "report_ids": [
+      "R-008",
+      "R-009",
+      "R-010",
+      "R-011",
+      "R-012"
+    ],
+    "first_report_time": "2026-08-14T06:20:00+05:00",
+    "last_report_time": "2026-08-14T07:40:00+05:00"
+  },
+  {
+    "id": "INC-003",
+    "title": "Mian Gujjar Basti families cut off, elderly dialysis patient",
+    "incident_type": "trapped_residents",
+    "place_id": "L-GUJJAR",
+    "estimated_affected": 25,
+    "vulnerable_people": 3,
+    "medical_emergency": true,
+    "medical_severity": 2,
+    "required_resources": [
+      "boat",
+      "ambulance"
+    ],
+    "isolation": 2,
+    "expected_priority": "Critical",
+    "expected_confidence_range": [
+      80,
+      92
+    ],
+    "in_baseline": true,
+    "status": "open",
+    "conflict_note": null,
+    "location_name": "Mian Gujjar Basti",
+    "lat": 34.006,
+    "lon": 71.992,
+    "report_ids": [
+      "R-013",
+      "R-014",
+      "R-015",
+      "R-016"
+    ],
+    "first_report_time": "2026-08-14T07:05:00+05:00",
+    "last_report_time": "2026-08-14T08:00:00+05:00"
+  },
+  {
+    "id": "INC-004",
+    "title": "Boundary wall collapse at Old Bus Stand, injured people",
+    "incident_type": "medical_emergency",
+    "place_id": "L-BUSSTAND",
+    "estimated_affected": 3,
+    "vulnerable_people": 0,
+    "medical_emergency": true,
+    "medical_severity": 3,
+    "required_resources": [
+      "ambulance",
+      "rescue_team"
+    ],
+    "isolation": 0,
+    "expected_priority": "Critical",
+    "expected_confidence_range": [
+      80,
+      92
+    ],
+    "in_baseline": true,
+    "status": "open",
+    "conflict_note": null,
+    "location_name": "Old Bus Stand",
+    "lat": 34.0135,
+    "lon": 71.9705,
+    "report_ids": [
+      "R-017",
+      "R-018",
+      "R-019"
+    ],
+    "first_report_time": "2026-08-14T07:50:00+05:00",
+    "last_report_time": "2026-08-14T08:01:00+05:00"
+  },
+  {
+    "id": "INC-005",
+    "title": "Passenger bus stranded in Tehsil Road underpass",
+    "incident_type": "stranded_vehicle",
+    "place_id": "L-TEHSIL",
+    "estimated_affected": 30,
+    "vulnerable_people": 10,
+    "medical_emergency": false,
+    "medical_severity": 0,
+    "required_resources": [
+      "boat",
+      "rescue_team"
+    ],
+    "isolation": 2,
+    "expected_priority": "Critical",
+    "expected_confidence_range": [
+      80,
+      92
+    ],
+    "in_baseline": true,
+    "status": "open",
+    "conflict_note": null,
+    "location_name": "Tehsil Road Underpass",
+    "lat": 34.0165,
+    "lon": 71.9805,
+    "report_ids": [
+      "R-020",
+      "R-021",
+      "R-022"
+    ],
+    "first_report_time": "2026-08-14T07:20:00+05:00",
+    "last_report_time": "2026-08-14T07:31:00+05:00"
+  },
+  {
+    "id": "INC-006",
+    "title": "Bedridden elderly woman upstairs in flooded Model Colony street",
+    "incident_type": "trapped_residents",
+    "place_id": "L-MODEL",
+    "estimated_affected": 4,
+    "vulnerable_people": 1,
+    "medical_emergency": false,
+    "medical_severity": 1,
+    "required_resources": [
+      "rescue_team"
+    ],
+    "isolation": 1,
+    "expected_priority": "High",
+    "expected_confidence_range": [
+      70,
+      85
+    ],
+    "in_baseline": true,
+    "status": "open",
+    "conflict_note": null,
+    "location_name": "Model Colony",
+    "lat": 34.02,
+    "lon": 71.97,
+    "report_ids": [
+      "R-023",
+      "R-024"
+    ],
+    "first_report_time": "2026-08-14T06:50:00+05:00",
+    "last_report_time": "2026-08-14T07:10:00+05:00"
+  },
+  {
+    "id": "INC-007",
+    "title": "About 15 families in Gulshan Mohalla need shelter",
+    "incident_type": "shelter_request",
+    "place_id": "L-GULSHAN",
+    "estimated_affected": 75,
+    "vulnerable_people": 6,
+    "medical_emergency": false,
+    "medical_severity": 0,
+    "required_resources": [
+      "shelter",
+      "relief_supplies"
+    ],
+    "isolation": 1,
+    "expected_priority": "High",
+    "expected_confidence_range": [
+      80,
+      92
+    ],
+    "in_baseline": true,
+    "status": "open",
+    "conflict_note": null,
+    "location_name": "Gulshan Mohalla",
+    "lat": 34.017,
+    "lon": 71.986,
+    "report_ids": [
+      "R-025",
+      "R-026",
+      "R-027"
+    ],
+    "first_report_time": "2026-08-14T06:30:00+05:00",
+    "last_report_time": "2026-08-14T07:45:00+05:00"
+  },
+  {
+    "id": "INC-008",
+    "title": "Canal Road embankment cracked, breach risk",
+    "incident_type": "structural_damage",
+    "place_id": "L-CANAL",
+    "estimated_affected": 300,
+    "vulnerable_people": 0,
+    "medical_emergency": false,
+    "medical_severity": 0,
+    "required_resources": [
+      "engineering_team",
+      "rescue_team"
+    ],
+    "isolation": 0,
+    "expected_priority": "High",
+    "expected_confidence_range": [
+      50,
+      70
+    ],
+    "conflict_note": "R-028 claims a breach. R-029 and field officer R-030 report a crack and seepage, no breach.",
+    "in_baseline": true,
+    "status": "open",
+    "location_name": "Canal Road Embankment",
+    "lat": 34.019,
+    "lon": 71.995,
+    "report_ids": [
+      "R-028",
+      "R-029",
+      "R-030"
+    ],
+    "first_report_time": "2026-08-14T07:00:00+05:00",
+    "last_report_time": "2026-08-14T08:20:00+05:00"
+  },
+  {
+    "id": "INC-009",
+    "title": "Child with type 1 diabetes needs insulin in Faisal Town",
+    "incident_type": "medical_emergency",
+    "place_id": "L-FAISAL",
+    "estimated_affected": 1,
+    "vulnerable_people": 1,
+    "medical_emergency": true,
+    "medical_severity": 2,
+    "required_resources": [
+      "medical_team"
+    ],
+    "isolation": 1,
+    "expected_priority": "High",
+    "expected_confidence_range": [
+      70,
+      85
+    ],
+    "in_baseline": true,
+    "status": "open",
+    "conflict_note": null,
+    "location_name": "Faisal Town",
+    "lat": 34.027,
+    "lon": 71.965,
+    "report_ids": [
+      "R-031",
+      "R-032"
+    ],
+    "first_report_time": "2026-08-14T08:10:00+05:00",
+    "last_report_time": "2026-08-14T08:15:00+05:00"
+  },
+  {
+    "id": "INC-010",
+    "title": "Live electric wire in floodwater at Sheikh Abad",
+    "incident_type": "electrical_hazard",
+    "place_id": "L-SHEIKH",
+    "estimated_affected": 20,
+    "vulnerable_people": 5,
+    "medical_emergency": false,
+    "medical_severity": 0,
+    "required_resources": [
+      "utility_crew"
+    ],
+    "isolation": 0,
+    "expected_priority": "High",
+    "expected_confidence_range": [
+      70,
+      85
+    ],
+    "in_baseline": true,
+    "status": "open",
+    "conflict_note": null,
+    "location_name": "Sheikh Abad",
+    "lat": 34.009,
+    "lon": 71.96,
+    "report_ids": [
+      "R-033",
+      "R-034"
+    ],
+    "first_report_time": "2026-08-14T07:55:00+05:00",
+    "last_report_time": "2026-08-14T08:05:00+05:00"
+  },
+  {
+    "id": "INC-011",
+    "title": "Wapda Colony without drinking water and food",
+    "incident_type": "food_water_shortage",
+    "place_id": "L-WAPDA",
+    "estimated_affected": 200,
+    "vulnerable_people": 30,
+    "medical_emergency": false,
+    "medical_severity": 0,
+    "required_resources": [
+      "relief_supplies"
+    ],
+    "isolation": 1,
+    "expected_priority": "Medium",
+    "expected_confidence_range": [
+      75,
+      90
+    ],
+    "in_baseline": true,
+    "status": "open",
+    "conflict_note": null,
+    "location_name": "Wapda Colony",
+    "lat": 34.025,
+    "lon": 71.988,
+    "report_ids": [
+      "R-035",
+      "R-036"
+    ],
+    "first_report_time": "2026-08-14T08:25:00+05:00",
+    "last_report_time": "2026-08-14T08:30:00+05:00"
+  },
+  {
+    "id": "INC-012",
+    "title": "Shops flooded at Bazaar Chowk",
+    "incident_type": "flooded_property",
+    "place_id": "L-BAZAAR",
+    "estimated_affected": 30,
+    "vulnerable_people": 0,
+    "medical_emergency": false,
+    "medical_severity": 0,
+    "required_resources": [
+      "dewatering_pump"
+    ],
+    "isolation": 0,
+    "expected_priority": "Low",
+    "expected_confidence_range": [
+      70,
+      85
+    ],
+    "in_baseline": true,
+    "status": "open",
+    "conflict_note": null,
+    "location_name": "Bazaar Chowk",
+    "lat": 34.015,
+    "lon": 71.975,
+    "report_ids": [
+      "R-037",
+      "R-038"
+    ],
+    "first_report_time": "2026-08-14T06:15:00+05:00",
+    "last_report_time": "2026-08-14T06:40:00+05:00"
+  },
+  {
+    "id": "INC-013",
+    "title": "Old Bus Stand to Canal Road link: blocked or open?",
+    "incident_type": "road_blocked",
+    "place_id": "L-BUSSTAND",
+    "estimated_affected": 50,
+    "vulnerable_people": 0,
+    "medical_emergency": false,
+    "medical_severity": 0,
+    "required_resources": [
+      "engineering_team"
+    ],
+    "isolation": 0,
+    "expected_priority": "Medium",
+    "expected_confidence_range": [
+      45,
+      65
+    ],
+    "conflict_note": "R-039 says blocked by debris. R-040 (later) says open with shallow water.",
+    "in_baseline": true,
+    "status": "open",
+    "location_name": "Old Bus Stand",
+    "lat": 34.0135,
+    "lon": 71.9705,
+    "report_ids": [
+      "R-039",
+      "R-040"
+    ],
+    "first_report_time": "2026-08-14T08:35:00+05:00",
+    "last_report_time": "2026-08-14T09:00:00+05:00"
+  },
+  {
+    "id": "INC-014",
+    "title": "Missing 8 year old boy near canal in Farm Colony",
+    "incident_type": "missing_person",
+    "place_id": "L-FARM",
+    "estimated_affected": 1,
+    "vulnerable_people": 1,
+    "medical_emergency": false,
+    "medical_severity": 1,
+    "required_resources": [
+      "search_team",
+      "rescue_team"
+    ],
+    "isolation": 0,
+    "expected_priority": "High",
+    "expected_confidence_range": [
+      65,
+      80
+    ],
+    "in_baseline": true,
+    "status": "open",
+    "conflict_note": null,
+    "location_name": "Farm Colony",
+    "lat": 34.03,
+    "lon": 71.995,
+    "report_ids": [
+      "R-041",
+      "R-042"
+    ],
+    "first_report_time": "2026-08-14T08:45:00+05:00",
+    "last_report_time": "2026-08-14T08:50:00+05:00"
+  },
+  {
+    "id": "INC-015",
+    "title": "Chak Village: 8 families with collapsed houses need tents",
+    "incident_type": "shelter_request",
+    "place_id": "L-CHAK",
+    "estimated_affected": 40,
+    "vulnerable_people": 12,
+    "medical_emergency": false,
+    "medical_severity": 0,
+    "required_resources": [
+      "shelter",
+      "relief_supplies"
+    ],
+    "isolation": 1,
+    "expected_priority": "Medium",
+    "expected_confidence_range": [
+      80,
+      90
+    ],
+    "in_baseline": true,
+    "status": "open",
+    "conflict_note": null,
+    "location_name": "Chak Village",
+    "lat": 34.033,
+    "lon": 71.97,
+    "report_ids": [
+      "R-043",
+      "R-044"
+    ],
+    "first_report_time": "2026-08-14T07:00:00+05:00",
+    "last_report_time": "2026-08-14T08:40:00+05:00"
+  },
+  {
+    "id": "INC-016",
+    "title": "Two cars stuck in floodwater near Jinnah Park",
+    "incident_type": "stranded_vehicle",
+    "place_id": "L-JINNAH",
+    "estimated_affected": 5,
+    "vulnerable_people": 0,
+    "medical_emergency": false,
+    "medical_severity": 0,
+    "required_resources": [
+      "rescue_team"
+    ],
+    "isolation": 1,
+    "expected_priority": "Medium",
+    "expected_confidence_range": [
+      60,
+      75
+    ],
+    "in_baseline": true,
+    "status": "open",
+    "conflict_note": null,
+    "location_name": "Jinnah Park",
+    "lat": 34.021,
+    "lon": 71.983,
+    "report_ids": [
+      "R-045"
+    ],
+    "first_report_time": "2026-08-14T08:55:00+05:00",
+    "last_report_time": "2026-08-14T08:55:00+05:00"
+  },
+  {
+    "id": "INC-017",
+    "title": "Girls High School shelter overcrowded, blankets and toilets short",
+    "incident_type": "shelter_request",
+    "place_id": "S-01",
+    "estimated_affected": 60,
+    "vulnerable_people": 15,
+    "medical_emergency": false,
+    "medical_severity": 0,
+    "required_resources": [
+      "relief_supplies",
+      "shelter"
+    ],
+    "isolation": 0,
+    "expected_priority": "Medium",
+    "expected_confidence_range": [
+      55,
+      70
+    ],
+    "in_baseline": true,
+    "status": "open",
+    "conflict_note": null,
+    "location_name": "Government Girls High School",
+    "lat": 34.018,
+    "lon": 71.973,
+    "report_ids": [
+      "R-046"
+    ],
+    "first_report_time": "2026-08-14T09:15:00+05:00",
+    "last_report_time": "2026-08-14T09:15:00+05:00"
+  },
+  {
+    "id": "INC-018",
+    "title": "Rural Health Center basement flooded, medicines at risk",
+    "incident_type": "flooded_property",
+    "place_id": "H-05",
+    "estimated_affected": 10,
+    "vulnerable_people": 0,
+    "medical_emergency": false,
+    "medical_severity": 0,
+    "required_resources": [
+      "dewatering_pump"
+    ],
+    "isolation": 0,
+    "expected_priority": "Low",
+    "expected_confidence_range": [
+      70,
+      85
+    ],
+    "in_baseline": true,
+    "status": "open",
+    "conflict_note": null,
+    "location_name": "Rural Health Center",
+    "lat": 34.011,
+    "lon": 71.955,
+    "report_ids": [
+      "R-047"
+    ],
+    "first_report_time": "2026-08-14T08:50:00+05:00",
+    "last_report_time": "2026-08-14T08:50:00+05:00"
+  },
+  {
+    "id": "INC-019",
+    "title": "Livestock stranded at Mian Gujjar Basti",
+    "incident_type": "livestock_stranded",
+    "place_id": "L-GUJJAR",
+    "estimated_affected": 5,
+    "vulnerable_people": 0,
+    "medical_emergency": false,
+    "medical_severity": 0,
+    "required_resources": [
+      "rescue_team"
+    ],
+    "isolation": 1,
+    "expected_priority": "Low",
+    "expected_confidence_range": [
+      50,
+      70
+    ],
+    "in_baseline": true,
+    "status": "open",
+    "conflict_note": null,
+    "location_name": "Mian Gujjar Basti",
+    "lat": 34.006,
+    "lon": 71.992,
+    "report_ids": [
+      "R-048"
+    ],
+    "first_report_time": "2026-08-14T07:20:00+05:00",
+    "last_report_time": "2026-08-14T07:20:00+05:00"
+  },
+  {
+    "id": "INC-020",
+    "title": "Unverified social media claim of a dam burst",
+    "incident_type": "structural_damage",
+    "place_id": "L-BARRAGE",
+    "estimated_affected": 0,
+    "vulnerable_people": 0,
+    "medical_emergency": false,
+    "medical_severity": 0,
+    "required_resources": [],
+    "isolation": 0,
+    "expected_priority": "Low",
+    "expected_confidence_range": [
+      5,
+      20
+    ],
+    "status": "unverified",
+    "conflict_note": "R-049 claims a dam burst. Field officer R-050 reports the structure intact (false alarm).",
+    "in_baseline": true,
+    "location_name": "Upstream Barrage",
+    "lat": 34.05,
+    "lon": 71.99,
+    "report_ids": [
+      "R-049",
+      "R-050"
+    ],
+    "first_report_time": "2026-08-14T06:45:00+05:00",
+    "last_report_time": "2026-08-14T07:10:00+05:00"
+  }
+]

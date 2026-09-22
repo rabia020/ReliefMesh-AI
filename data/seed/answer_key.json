@@ -1,0 +1,202 @@
+{
+  "R-001": {
+    "incident_id": "INC-001",
+    "place_id": "L-BRIDGE"
+  },
+  "R-002": {
+    "incident_id": "INC-001",
+    "place_id": "L-BRIDGE"
+  },
+  "R-003": {
+    "incident_id": "INC-001",
+    "place_id": "L-BRIDGE"
+  },
+  "R-004": {
+    "incident_id": "INC-001",
+    "place_id": "L-BRIDGE"
+  },
+  "R-005": {
+    "incident_id": "INC-001",
+    "place_id": "L-BRIDGE"
+  },
+  "R-006": {
+    "incident_id": "INC-001",
+    "place_id": "L-BRIDGE"
+  },
+  "R-007": {
+    "incident_id": "INC-001",
+    "place_id": "L-BRIDGE"
+  },
+  "R-008": {
+    "incident_id": "INC-002",
+    "place_id": "L-SADIQ"
+  },
+  "R-009": {
+    "incident_id": "INC-002",
+    "place_id": "L-SADIQ"
+  },
+  "R-010": {
+    "incident_id": "INC-002",
+    "place_id": "L-SADIQ"
+  },
+  "R-011": {
+    "incident_id": "INC-002",
+    "place_id": "L-SADIQ"
+  },
+  "R-012": {
+    "incident_id": "INC-002",
+    "place_id": "L-SADIQ"
+  },
+  "R-013": {
+    "incident_id": "INC-003",
+    "place_id": "L-GUJJAR"
+  },
+  "R-014": {
+    "incident_id": "INC-003",
+    "place_id": "L-GUJJAR"
+  },
+  "R-015": {
+    "incident_id": "INC-003",
+    "place_id": "L-GUJJAR"
+  },
+  "R-016": {
+    "incident_id": "INC-003",
+    "place_id": "L-GUJJAR"
+  },
+  "R-017": {
+    "incident_id": "INC-004",
+    "place_id": "L-BUSSTAND"
+  },
+  "R-018": {
+    "incident_id": "INC-004",
+    "place_id": "L-BUSSTAND"
+  },
+  "R-019": {
+    "incident_id": "INC-004",
+    "place_id": "L-BUSSTAND"
+  },
+  "R-020": {
+    "incident_id": "INC-005",
+    "place_id": "L-TEHSIL"
+  },
+  "R-021": {
+    "incident_id": "INC-005",
+    "place_id": "L-TEHSIL"
+  },
+  "R-022": {
+    "incident_id": "INC-005",
+    "place_id": "L-TEHSIL"
+  },
+  "R-023": {
+    "incident_id": "INC-006",
+    "place_id": "L-MODEL"
+  },
+  "R-024": {
+    "incident_id": "INC-006",
+    "place_id": "L-MODEL"
+  },
+  "R-025": {
+    "incident_id": "INC-007",
+    "place_id": "L-GULSHAN"
+  },
+  "R-026": {
+    "incident_id": "INC-007",
+    "place_id": "L-GULSHAN"
+  },
+  "R-027": {
+    "incident_id": "INC-007",
+    "place_id": "L-GULSHAN"
+  },
+  "R-028": {
+    "incident_id": "INC-008",
+    "place_id": "L-CANAL"
+  },
+  "R-029": {
+    "incident_id": "INC-008",
+    "place_id": "L-CANAL"
+  },
+  "R-030": {
+    "incident_id": "INC-008",
+    "place_id": "L-CANAL"
+  },
+  "R-031": {
+    "incident_id": "INC-009",
+    "place_id": "L-FAISAL"
+  },
+  "R-032": {
+    "incident_id": "INC-009",
+    "place_id": "L-FAISAL"
+  },
+  "R-033": {
+    "incident_id": "INC-010",
+    "place_id": "L-SHEIKH"
+  },
+  "R-034": {
+    "incident_id": "INC-010",
+    "place_id": "L-SHEIKH"
+  },
+  "R-035": {
+    "incident_id": "INC-011",
+    "place_id": "L-WAPDA"
+  },
+  "R-036": {
+    "incident_id": "INC-011",
+    "place_id": "L-WAPDA"
+  },
+  "R-037": {
+    "incident_id": "INC-012",
+    "place_id": "L-BAZAAR"
+  },
+  "R-038": {
+    "incident_id": "INC-012",
+    "place_id": "L-BAZAAR"
+  },
+  "R-039": {
+    "incident_id": "INC-013",
+    "place_id": "L-BUSSTAND"
+  },
+  "R-040": {
+    "incident_id": "INC-013",
+    "place_id": "L-BUSSTAND"
+  },
+  "R-041": {
+    "incident_id": "INC-014",
+    "place_id": "L-FARM"
+  },
+  "R-042": {
+    "incident_id": "INC-014",
+    "place_id": "L-FARM"
+  },
+  "R-043": {
+    "incident_id": "INC-015",
+    "place_id": "L-CHAK"
+  },
+  "R-044": {
+    "incident_id": "INC-015",
+    "place_id": "L-CHAK"
+  },
+  "R-045": {
+    "incident_id": "INC-016",
+    "place_id": "L-JINNAH"
+  },
+  "R-046": {
+    "incident_id": "INC-017",
+    "place_id": "S-01"
+  },
+  "R-047": {
+    "incident_id": "INC-018",
+    "place_id": "H-05"
+  },
+  "R-048": {
+    "incident_id": "INC-019",
+    "place_id": "L-GUJJAR"
+  },
+  "R-049": {
+    "incident_id": "INC-020",
+    "place_id": "L-BARRAGE"
+  },
+  "R-050": {
+    "incident_id": "INC-020",
+    "place_id": "L-BARRAGE"
+  }
+}

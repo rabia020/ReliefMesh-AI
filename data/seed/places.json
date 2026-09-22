@@ -1,0 +1,340 @@
+[
+  {
+    "id": "L-BRIDGE",
+    "name": "Kabul River Bridge",
+    "name_ur": "دریائے کابل کا پل",
+    "kind": "bridge",
+    "lat": 34.0105,
+    "lon": 71.98,
+    "aliases": [
+      "pul",
+      "pul kabul",
+      "river bridge",
+      "bridge",
+      "kabul bridge",
+      "پل"
+    ]
+  },
+  {
+    "id": "L-MODEL",
+    "name": "Model Colony",
+    "name_ur": "ماڈل کالونی",
+    "kind": "neighborhood",
+    "lat": 34.02,
+    "lon": 71.97,
+    "aliases": [
+      "model colony"
+    ]
+  },
+  {
+    "id": "L-GULSHAN",
+    "name": "Gulshan Mohalla",
+    "name_ur": "گلشن محلہ",
+    "kind": "neighborhood",
+    "lat": 34.017,
+    "lon": 71.986,
+    "aliases": [
+      "gulshan mohalla",
+      "gulshan"
+    ]
+  },
+  {
+    "id": "L-BAZAAR",
+    "name": "Bazaar Chowk",
+    "name_ur": "بازار چوک",
+    "kind": "market",
+    "lat": 34.015,
+    "lon": 71.975,
+    "aliases": [
+      "bazaar chowk",
+      "bazar chowk",
+      "main bazaar"
+    ]
+  },
+  {
+    "id": "L-RAILWAY",
+    "name": "Railway Colony",
+    "name_ur": "ریلوے کالونی",
+    "kind": "neighborhood",
+    "lat": 34.023,
+    "lon": 71.978,
+    "aliases": [
+      "railway colony"
+    ]
+  },
+  {
+    "id": "L-SADIQ",
+    "name": "Sadiq Abad Village",
+    "name_ur": "صادق آباد گاؤں",
+    "kind": "village",
+    "lat": 34.004,
+    "lon": 71.965,
+    "aliases": [
+      "sadiq abad",
+      "sadiqabad",
+      "sadiq abad village"
+    ]
+  },
+  {
+    "id": "L-GUJJAR",
+    "name": "Mian Gujjar Basti",
+    "name_ur": "میاں گجر بستی",
+    "kind": "village",
+    "lat": 34.006,
+    "lon": 71.992,
+    "aliases": [
+      "mian gujjar basti",
+      "gujjar basti"
+    ]
+  },
+  {
+    "id": "L-CANAL",
+    "name": "Canal Road Embankment",
+    "name_ur": "نہر روڈ بند",
+    "kind": "embankment",
+    "lat": 34.019,
+    "lon": 71.995,
+    "aliases": [
+      "canal road",
+      "nehar road",
+      "nahar road",
+      "bund",
+      "embankment"
+    ]
+  },
+  {
+    "id": "L-FAISAL",
+    "name": "Faisal Town",
+    "name_ur": "فیصل ٹاؤن",
+    "kind": "neighborhood",
+    "lat": 34.027,
+    "lon": 71.965,
+    "aliases": [
+      "faisal town"
+    ]
+  },
+  {
+    "id": "L-BUSSTAND",
+    "name": "Old Bus Stand",
+    "name_ur": "پرانا بس اڈہ",
+    "kind": "landmark",
+    "lat": 34.0135,
+    "lon": 71.9705,
+    "aliases": [
+      "old bus stand",
+      "purana bus adda",
+      "old bus adda"
+    ]
+  },
+  {
+    "id": "L-TEHSIL",
+    "name": "Tehsil Road Underpass",
+    "name_ur": "تحصیل روڈ انڈر پاس",
+    "kind": "underpass",
+    "lat": 34.0165,
+    "lon": 71.9805,
+    "aliases": [
+      "tehsil road underpass",
+      "tehsil road",
+      "underpass"
+    ]
+  },
+  {
+    "id": "L-SHEIKH",
+    "name": "Sheikh Abad",
+    "name_ur": "شیخ آباد",
+    "kind": "neighborhood",
+    "lat": 34.009,
+    "lon": 71.96,
+    "aliases": [
+      "sheikh abad",
+      "shaikh abad",
+      "sheikhabad"
+    ]
+  },
+  {
+    "id": "L-WAPDA",
+    "name": "Wapda Colony",
+    "name_ur": "واپڈا کالونی",
+    "kind": "neighborhood",
+    "lat": 34.025,
+    "lon": 71.988,
+    "aliases": [
+      "wapda colony"
+    ]
+  },
+  {
+    "id": "L-FARM",
+    "name": "Farm Colony",
+    "name_ur": "فارم کالونی",
+    "kind": "neighborhood",
+    "lat": 34.03,
+    "lon": 71.995,
+    "aliases": [
+      "farm colony"
+    ]
+  },
+  {
+    "id": "L-CHAK",
+    "name": "Chak Village",
+    "name_ur": "چک گاؤں",
+    "kind": "village",
+    "lat": 34.033,
+    "lon": 71.97,
+    "aliases": [
+      "chak village",
+      "chak"
+    ]
+  },
+  {
+    "id": "L-JINNAH",
+    "name": "Jinnah Park",
+    "name_ur": "جناح پارک",
+    "kind": "park",
+    "lat": 34.021,
+    "lon": 71.983,
+    "aliases": [
+      "jinnah park"
+    ]
+  },
+  {
+    "id": "L-BARRAGE",
+    "name": "Upstream Barrage",
+    "name_ur": "بیراج",
+    "kind": "dam",
+    "lat": 34.05,
+    "lon": 71.99,
+    "aliases": [
+      "barrage",
+      "dam",
+      "upstream dam",
+      "upstream barrage",
+      "ڈیم"
+    ]
+  },
+  {
+    "id": "S-01",
+    "name": "Government Girls High School",
+    "name_ur": null,
+    "kind": "shelter",
+    "lat": 34.018,
+    "lon": 71.973,
+    "aliases": [
+      "girls high school",
+      "girls school",
+      "government girls high school"
+    ]
+  },
+  {
+    "id": "S-02",
+    "name": "Model Colony Community Hall",
+    "name_ur": null,
+    "kind": "shelter",
+    "lat": 34.0205,
+    "lon": 71.9715,
+    "aliases": []
+  },
+  {
+    "id": "S-03",
+    "name": "Jamia Masjid Relief Complex",
+    "name_ur": null,
+    "kind": "shelter",
+    "lat": 34.014,
+    "lon": 71.977,
+    "aliases": []
+  },
+  {
+    "id": "S-04",
+    "name": "City Sports Complex Indoor Hall",
+    "name_ur": null,
+    "kind": "shelter",
+    "lat": 34.026,
+    "lon": 71.985,
+    "aliases": []
+  },
+  {
+    "id": "S-05",
+    "name": "Government Boys Primary School",
+    "name_ur": null,
+    "kind": "shelter",
+    "lat": 34.011,
+    "lon": 71.969,
+    "aliases": []
+  },
+  {
+    "id": "S-06",
+    "name": "Union Council Office Hall",
+    "name_ur": null,
+    "kind": "shelter",
+    "lat": 34.0155,
+    "lon": 71.99,
+    "aliases": []
+  },
+  {
+    "id": "S-07",
+    "name": "City Higher Secondary School",
+    "name_ur": null,
+    "kind": "shelter",
+    "lat": 34.029,
+    "lon": 71.974,
+    "aliases": []
+  },
+  {
+    "id": "S-08",
+    "name": "Railway Colony Community Center",
+    "name_ur": null,
+    "kind": "shelter",
+    "lat": 34.0235,
+    "lon": 71.98,
+    "aliases": []
+  },
+  {
+    "id": "H-01",
+    "name": "District Headquarters Hospital",
+    "name_ur": null,
+    "kind": "hospital",
+    "lat": 34.0175,
+    "lon": 71.976,
+    "aliases": []
+  },
+  {
+    "id": "H-02",
+    "name": "Tehsil Hospital North",
+    "name_ur": null,
+    "kind": "hospital",
+    "lat": 34.0285,
+    "lon": 71.969,
+    "aliases": []
+  },
+  {
+    "id": "H-03",
+    "name": "Riverside Community Hospital",
+    "name_ur": null,
+    "kind": "hospital",
+    "lat": 34.012,
+    "lon": 71.984,
+    "aliases": []
+  },
+  {
+    "id": "H-04",
+    "name": "Women and Children Hospital",
+    "name_ur": null,
+    "kind": "hospital",
+    "lat": 34.0215,
+    "lon": 71.992,
+    "aliases": []
+  },
+  {
+    "id": "H-05",
+    "name": "Rural Health Center",
+    "name_ur": null,
+    "kind": "hospital",
+    "lat": 34.011,
+    "lon": 71.955,
+    "aliases": [
+      "rural health center",
+      "rural health centre",
+      "rhc"
+    ]
+  }
+]

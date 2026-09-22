@@ -1,0 +1,100 @@
+[
+  {
+    "id": "H-01",
+    "name": "District Headquarters Hospital",
+    "lat": 34.0175,
+    "lon": 71.976,
+    "total_beds": 300,
+    "available_beds": 42,
+    "icu_total": 20,
+    "icu_available": 3,
+    "emergency_open": true,
+    "status": "operational",
+    "specialties": [
+      "trauma",
+      "maternity",
+      "dialysis",
+      "general"
+    ],
+    "aliases": [],
+    "notes": "Only hospital with dialysis."
+  },
+  {
+    "id": "H-02",
+    "name": "Tehsil Hospital North",
+    "lat": 34.0285,
+    "lon": 71.969,
+    "total_beds": 120,
+    "available_beds": 18,
+    "icu_total": 4,
+    "icu_available": 0,
+    "emergency_open": true,
+    "status": "operational",
+    "specialties": [
+      "maternity",
+      "pediatrics",
+      "general"
+    ],
+    "aliases": [],
+    "notes": ""
+  },
+  {
+    "id": "H-03",
+    "name": "Riverside Community Hospital",
+    "lat": 34.012,
+    "lon": 71.984,
+    "total_beds": 80,
+    "available_beds": 5,
+    "icu_total": 6,
+    "icu_available": 1,
+    "emergency_open": true,
+    "status": "operational",
+    "specialties": [
+      "trauma",
+      "general"
+    ],
+    "aliases": [],
+    "notes": "Near the river. Almost full."
+  },
+  {
+    "id": "H-04",
+    "name": "Women and Children Hospital",
+    "lat": 34.0215,
+    "lon": 71.992,
+    "total_beds": 150,
+    "available_beds": 25,
+    "icu_total": 8,
+    "icu_available": 2,
+    "emergency_open": true,
+    "status": "operational",
+    "specialties": [
+      "maternity",
+      "pediatrics",
+      "general"
+    ],
+    "aliases": [],
+    "notes": ""
+  },
+  {
+    "id": "H-05",
+    "name": "Rural Health Center",
+    "lat": 34.011,
+    "lon": 71.955,
+    "total_beds": 30,
+    "available_beds": 2,
+    "icu_total": 0,
+    "icu_available": 0,
+    "emergency_open": true,
+    "status": "limited",
+    "specialties": [
+      "first_aid",
+      "general"
+    ],
+    "aliases": [
+      "rural health center",
+      "rural health centre",
+      "rhc"
+    ],
+    "notes": "Basement flooded. Limited hours."
+  }
+]

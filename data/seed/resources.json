@@ -1,0 +1,166 @@
+[
+  {
+    "id": "RT-A",
+    "name": "Rescue Team A",
+    "type": "rescue_team",
+    "status": "available",
+    "base": "District Rescue Station",
+    "lat": 34.016,
+    "lon": 71.974,
+    "crew_size": 8,
+    "capacity_people": 10,
+    "capabilities": [
+      "land_rescue",
+      "structural_rescue",
+      "basic_water_rescue"
+    ],
+    "current_assignment": null
+  },
+  {
+    "id": "RT-B",
+    "name": "Rescue Team B",
+    "type": "rescue_team",
+    "status": "available",
+    "base": "Rescue Station North",
+    "lat": 34.028,
+    "lon": 71.972,
+    "crew_size": 8,
+    "capacity_people": 10,
+    "capabilities": [
+      "land_rescue",
+      "structural_rescue",
+      "basic_water_rescue"
+    ],
+    "current_assignment": null
+  },
+  {
+    "id": "RT-C",
+    "name": "Rescue Team C",
+    "type": "rescue_team",
+    "status": "deployed",
+    "base": "District Rescue Station",
+    "lat": 34.023,
+    "lon": 71.978,
+    "crew_size": 8,
+    "capacity_people": 10,
+    "capabilities": [
+      "land_rescue",
+      "structural_rescue"
+    ],
+    "current_assignment": "Evacuation support at Railway Colony (busy until 12:00)"
+  },
+  {
+    "id": "BT-1",
+    "name": "Rescue Boat 1",
+    "type": "boat",
+    "status": "available",
+    "base": "Boat Launch Point East",
+    "lat": 34.011,
+    "lon": 71.981,
+    "crew_size": 3,
+    "capacity_people": 12,
+    "capabilities": [
+      "water_rescue",
+      "evacuation"
+    ],
+    "current_assignment": null
+  },
+  {
+    "id": "BT-2",
+    "name": "Rescue Boat 2",
+    "type": "boat",
+    "status": "available",
+    "base": "Boat Launch Point West",
+    "lat": 34.011,
+    "lon": 71.968,
+    "crew_size": 3,
+    "capacity_people": 10,
+    "capabilities": [
+      "water_rescue",
+      "evacuation"
+    ],
+    "current_assignment": null
+  },
+  {
+    "id": "BT-3",
+    "name": "Rescue Boat 3",
+    "type": "boat",
+    "status": "maintenance",
+    "base": "Boat Launch Point East",
+    "lat": 34.011,
+    "lon": 71.981,
+    "crew_size": 3,
+    "capacity_people": 8,
+    "capabilities": [
+      "water_rescue",
+      "evacuation"
+    ],
+    "current_assignment": "Engine repair (unavailable)"
+  },
+  {
+    "id": "AMB-1",
+    "name": "Ambulance 1",
+    "type": "ambulance",
+    "status": "available",
+    "base": "District Headquarters Hospital",
+    "lat": 34.0175,
+    "lon": 71.976,
+    "crew_size": 2,
+    "capacity_people": 2,
+    "capabilities": [
+      "patient_transport",
+      "first_aid"
+    ],
+    "current_assignment": null
+  },
+  {
+    "id": "AMB-2",
+    "name": "Ambulance 2",
+    "type": "ambulance",
+    "status": "available",
+    "base": "Women and Children Hospital",
+    "lat": 34.0215,
+    "lon": 71.992,
+    "crew_size": 2,
+    "capacity_people": 2,
+    "capabilities": [
+      "patient_transport",
+      "first_aid",
+      "maternity_transport"
+    ],
+    "current_assignment": null
+  },
+  {
+    "id": "AMB-3",
+    "name": "Ambulance 3",
+    "type": "ambulance",
+    "status": "deployed",
+    "base": "Riverside Community Hospital",
+    "lat": 34.012,
+    "lon": 71.984,
+    "crew_size": 2,
+    "capacity_people": 2,
+    "capabilities": [
+      "patient_transport",
+      "first_aid"
+    ],
+    "current_assignment": "Transporting a patient to H-01 (back in about 45 min)"
+  },
+  {
+    "id": "MED-1",
+    "name": "Mobile Medical Team 1",
+    "type": "medical_team",
+    "status": "available",
+    "base": "District Headquarters Hospital",
+    "lat": 34.0175,
+    "lon": 71.976,
+    "crew_size": 5,
+    "capacity_people": 20,
+    "capabilities": [
+      "on_site_treatment",
+      "first_aid",
+      "maternity_support"
+    ],
+    "current_assignment": null
+  }
+]

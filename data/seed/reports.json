@@ -1,0 +1,602 @@
+[
+  {
+    "id": "R-001",
+    "timestamp": "2026-08-14T08:41:00+05:00",
+    "language": "en",
+    "source_type": "whatsapp",
+    "text": "Bridge flooded, water is rising fast near the river bridge. Cars cannot pass.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "demo"
+  },
+  {
+    "id": "R-002",
+    "timestamp": "2026-08-14T08:44:00+05:00",
+    "language": "roman_ur",
+    "source_type": "sms",
+    "text": "Pul ke paas pani hai, log phanse hue hain. Jaldi madad bhejein.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "demo"
+  },
+  {
+    "id": "R-003",
+    "timestamp": "2026-08-14T08:47:00+05:00",
+    "language": "ur",
+    "source_type": "hotline_call",
+    "text": "پل کے قریب سڑک بند ہو گئی ہے اور پانی گھروں میں داخل ہو رہا ہے۔",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "demo"
+  },
+  {
+    "id": "R-004",
+    "timestamp": "2026-08-14T08:52:00+05:00",
+    "language": "roman_ur",
+    "source_type": "whatsapp",
+    "text": "Pul ke paas 10 families phansi hui hain aur ek pregnant woman ko medical help chahiye.",
+    "image_id": "IMG-01",
+    "image_file": "bridge_flood.png",
+    "structured": null,
+    "batch": "demo"
+  },
+  {
+    "id": "R-005",
+    "timestamp": "2026-08-14T08:55:00+05:00",
+    "language": "en",
+    "source_type": "social_media",
+    "text": "People stuck near bridge on the east bank, some are on rooftops. Ambulance cannot reach them.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "demo"
+  },
+  {
+    "id": "R-006",
+    "timestamp": "2026-08-14T09:05:00+05:00",
+    "language": "en",
+    "source_type": "field_officer",
+    "text": "FIELD FORM: Kabul River Bridge, east bank. 40 people stranded including 1 pregnant woman (about 8 months). Water 3 ft and rising. Boat and medical team required.",
+    "image_id": null,
+    "image_file": null,
+    "structured": {
+      "location_text": "Kabul River Bridge, east bank",
+      "people_affected": 40,
+      "vulnerable_people": 1,
+      "medical_emergency": true,
+      "needs": [
+        "boat",
+        "medical_team"
+      ],
+      "water_depth_ft": 3
+    },
+    "batch": "demo"
+  },
+  {
+    "id": "R-007",
+    "timestamp": "2026-08-14T09:10:00+05:00",
+    "language": "roman_ur",
+    "source_type": "whatsapp",
+    "text": "Bridge wali side pe sirf 15-20 log hain, baqi log nikal gaye hain.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "demo"
+  },
+  {
+    "id": "R-008",
+    "timestamp": "2026-08-14T06:20:00+05:00",
+    "language": "en",
+    "source_type": "whatsapp",
+    "text": "Sadiq Abad village is under 5 feet of water. About 60 people are on rooftops. We need boats urgently. Three small children have high fever.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-009",
+    "timestamp": "2026-08-14T06:35:00+05:00",
+    "language": "roman_ur",
+    "source_type": "sms",
+    "text": "Sadiq Abad mein ghar doob gaye hain, log chhaton pe baithe hain. Boat chahiye, bachay bimar hain.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-010",
+    "timestamp": "2026-08-14T06:48:00+05:00",
+    "language": "ur",
+    "source_type": "hotline_call",
+    "text": "صادق آباد گاؤں میں پانی چھتوں تک پہنچ گیا ہے۔ تقریباً ساٹھ لوگ پھنسے ہوئے ہیں، فوری کشتی بھیجیں۔",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-011",
+    "timestamp": "2026-08-14T07:15:00+05:00",
+    "language": "en",
+    "source_type": "field_officer",
+    "text": "FIELD FORM: Sadiq Abad village. 60 people on rooftops, 3 children under 5 with fever. Water 5 ft. Link road cut. Boats required.",
+    "image_id": "IMG-02",
+    "image_file": "rooftops_flood.png",
+    "structured": {
+      "location_text": "Sadiq Abad village",
+      "people_affected": 60,
+      "vulnerable_people": 3,
+      "medical_emergency": true,
+      "needs": [
+        "boat",
+        "medical_team"
+      ],
+      "water_depth_ft": 5
+    },
+    "batch": "baseline"
+  },
+  {
+    "id": "R-012",
+    "timestamp": "2026-08-14T07:40:00+05:00",
+    "language": "roman_ur",
+    "source_type": "whatsapp",
+    "text": "Sadiq Abad ka link road bhi band hai, gaari nahi ja sakti. Sirf boat se pahunch sakte hain.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-013",
+    "timestamp": "2026-08-14T07:05:00+05:00",
+    "language": "roman_ur",
+    "source_type": "whatsapp",
+    "text": "Mian Gujjar Basti mein pani ghar mein aa gaya hai. Ek buzurg ko dialysis ke liye hospital le jana hai, wo chal nahi sakte.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-014",
+    "timestamp": "2026-08-14T07:12:00+05:00",
+    "language": "en",
+    "source_type": "sms",
+    "text": "Mian Gujjar Basti: around 25 people, water knee high, one elderly man needs dialysis today. No road access.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-015",
+    "timestamp": "2026-08-14T07:30:00+05:00",
+    "language": "ur",
+    "source_type": "whatsapp",
+    "text": "میاں گجر بستی میں تقریباً پچیس لوگ ہیں، ایک بزرگ مریض کو ڈائیلیسس کی ضرورت ہے، پانی بڑھ رہا ہے۔",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-016",
+    "timestamp": "2026-08-14T08:00:00+05:00",
+    "language": "en",
+    "source_type": "field_officer",
+    "text": "FIELD FORM: Mian Gujjar Basti. 25 people, 3 vulnerable (2 elderly, 1 dialysis patient). Water 2 ft, no road access. Boat and ambulance required.",
+    "image_id": null,
+    "image_file": null,
+    "structured": {
+      "location_text": "Mian Gujjar Basti",
+      "people_affected": 25,
+      "vulnerable_people": 3,
+      "medical_emergency": true,
+      "needs": [
+        "boat",
+        "ambulance"
+      ],
+      "water_depth_ft": 2
+    },
+    "batch": "baseline"
+  },
+  {
+    "id": "R-017",
+    "timestamp": "2026-08-14T07:50:00+05:00",
+    "language": "en",
+    "source_type": "hotline_call",
+    "text": "A boundary wall collapsed near the Old Bus Stand. At least 3 people are injured, one is bleeding badly.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-018",
+    "timestamp": "2026-08-14T07:53:00+05:00",
+    "language": "roman_ur",
+    "source_type": "sms",
+    "text": "Old bus stand ke paas deewar gir gayi hai, 3-4 log zakhmi hain, ambulance bhejein.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-019",
+    "timestamp": "2026-08-14T08:01:00+05:00",
+    "language": "ur",
+    "source_type": "whatsapp",
+    "text": "پرانے بس اڈے کے پاس دیوار گر گئی ہے، کچھ لوگ زخمی ہیں، ایمبولینس چاہیے۔",
+    "image_id": "IMG-03",
+    "image_file": "wall_collapse.png",
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-020",
+    "timestamp": "2026-08-14T07:20:00+05:00",
+    "language": "en",
+    "source_type": "whatsapp",
+    "text": "A passenger bus is stuck in the Tehsil Road underpass, water is up to the windows. There are women and children inside.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-021",
+    "timestamp": "2026-08-14T07:24:00+05:00",
+    "language": "roman_ur",
+    "source_type": "sms",
+    "text": "Tehsil road underpass mein bus phans gayi hai, andar 30 ke qareeb log hain, pani barh raha hai.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-022",
+    "timestamp": "2026-08-14T07:31:00+05:00",
+    "language": "ur",
+    "source_type": "hotline_call",
+    "text": "تحصیل روڈ انڈر پاس میں بس پھنسی ہوئی ہے، عورتیں اور بچے بھی اندر ہیں، خدا کے لیے جلدی آئیں۔",
+    "image_id": "IMG-04",
+    "image_file": "bus_underpass.png",
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-023",
+    "timestamp": "2026-08-14T06:50:00+05:00",
+    "language": "en",
+    "source_type": "whatsapp",
+    "text": "My grandmother is bedridden on the first floor in Model Colony, street 4. Water is 4 feet deep outside and we cannot carry her out.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-024",
+    "timestamp": "2026-08-14T07:10:00+05:00",
+    "language": "ur",
+    "source_type": "sms",
+    "text": "ماڈل کالونی گلی نمبر 4 میں ایک بزرگ خاتون چل پھر نہیں سکتیں، پانی بہت زیادہ ہے، براہ کرم ریسکیو ٹیم بھیجیں۔",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-025",
+    "timestamp": "2026-08-14T06:30:00+05:00",
+    "language": "roman_ur",
+    "source_type": "whatsapp",
+    "text": "Gulshan Mohalla mein taqreeban 15 gharanon ke ground floor mein pani aa gaya hai, raat kahan guzaren, shelter chahiye.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-026",
+    "timestamp": "2026-08-14T06:55:00+05:00",
+    "language": "ur",
+    "source_type": "sms",
+    "text": "گلشن محلہ میں پندرہ خاندانوں کے گھروں میں پانی بھر گیا ہے، رہنے کی جگہ نہیں ہے۔",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-027",
+    "timestamp": "2026-08-14T07:45:00+05:00",
+    "language": "en",
+    "source_type": "volunteer_form",
+    "text": "VOLUNTEER FORM: Gulshan Mohalla. About 15 families (75 people), ground floors flooded, 6 young children. Need shelter and food.",
+    "image_id": null,
+    "image_file": null,
+    "structured": {
+      "location_text": "Gulshan Mohalla",
+      "people_affected": 75,
+      "vulnerable_people": 6,
+      "medical_emergency": false,
+      "needs": [
+        "shelter",
+        "relief_supplies"
+      ],
+      "water_depth_ft": 2
+    },
+    "batch": "baseline"
+  },
+  {
+    "id": "R-028",
+    "timestamp": "2026-08-14T07:00:00+05:00",
+    "language": "en",
+    "source_type": "social_media",
+    "text": "Canal Road embankment has BREACHED! Water is pouring into the colonies. Evacuate now!",
+    "image_id": "IMG-05",
+    "image_file": "embankment_crack.png",
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-029",
+    "timestamp": "2026-08-14T07:35:00+05:00",
+    "language": "roman_ur",
+    "source_type": "whatsapp",
+    "text": "Canal road ke bund mein daraar hai aur pani rees raha hai, abhi toota nahi. Log bohat dare hue hain.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-030",
+    "timestamp": "2026-08-14T08:20:00+05:00",
+    "language": "en",
+    "source_type": "field_officer",
+    "text": "Inspected Canal Road embankment at km 2. Seepage and a 3 m crack observed, no breach. Sandbags requested. Site will be monitored.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-031",
+    "timestamp": "2026-08-14T08:10:00+05:00",
+    "language": "en",
+    "source_type": "whatsapp",
+    "text": "Faisal Town: my 9 year old son has type 1 diabetes and our insulin is finished. There is water around the house and we cannot reach a pharmacy.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-032",
+    "timestamp": "2026-08-14T08:15:00+05:00",
+    "language": "ur",
+    "source_type": "sms",
+    "text": "فیصل ٹاؤن میں ایک بچے کو انسولین کی ضرورت ہے، گھر کے اردگرد پانی ہے، کوئی طبی ٹیم بھیج دیں۔",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-033",
+    "timestamp": "2026-08-14T07:55:00+05:00",
+    "language": "roman_ur",
+    "source_type": "whatsapp",
+    "text": "Sheikh Abad mein bijli ka khamba paani mein gir gaya hai, current lag raha hai, bachay wahan se guzar rahe hain.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-034",
+    "timestamp": "2026-08-14T08:05:00+05:00",
+    "language": "en",
+    "source_type": "hotline_call",
+    "text": "Live electric wire in floodwater on Sheikh Abad main street. Please cut the power supply, danger of electrocution.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-035",
+    "timestamp": "2026-08-14T08:25:00+05:00",
+    "language": "ur",
+    "source_type": "whatsapp",
+    "text": "واپڈا کالونی میں دو دن سے پینے کا صاف پانی اور کھانا نہیں ہے، تقریباً دو سو لوگ ہیں۔",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-036",
+    "timestamp": "2026-08-14T08:30:00+05:00",
+    "language": "en",
+    "source_type": "sms",
+    "text": "Wapda Colony has had no drinking water or food since yesterday. Around 200 residents including many children.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-037",
+    "timestamp": "2026-08-14T06:15:00+05:00",
+    "language": "ur",
+    "source_type": "whatsapp",
+    "text": "بازار چوک میں دکانوں میں پانی بھر گیا ہے اور سڑک بھی بند ہے، بہت نقصان ہوا ہے۔",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-038",
+    "timestamp": "2026-08-14T06:40:00+05:00",
+    "language": "en",
+    "source_type": "social_media",
+    "text": "Shops at Bazaar Chowk are flooded and traffic is stuck. No injuries as far as I know.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-039",
+    "timestamp": "2026-08-14T08:35:00+05:00",
+    "language": "en",
+    "source_type": "whatsapp",
+    "text": "Road from Old Bus Stand to Canal Road is blocked by fallen trees and debris.",
+    "image_id": "IMG-06",
+    "image_file": "blocked_road_debris.png",
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-040",
+    "timestamp": "2026-08-14T09:00:00+05:00",
+    "language": "ur",
+    "source_type": "sms",
+    "text": "پرانے بس اڈے سے نہر روڈ والی سڑک کھلی ہے، صرف تھوڑا پانی ہے، گاڑیاں گزر رہی ہیں۔",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-041",
+    "timestamp": "2026-08-14T08:45:00+05:00",
+    "language": "en",
+    "source_type": "whatsapp",
+    "text": "Missing: 8 year old boy, blue shirt, last seen near the canal in Farm Colony around 8am.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-042",
+    "timestamp": "2026-08-14T08:50:00+05:00",
+    "language": "ur",
+    "source_type": "sms",
+    "text": "فارم کالونی میں آٹھ سال کا بچہ نہر کے پاس سے لاپتہ ہے، نیلی قمیض پہنی ہوئی ہے۔",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-043",
+    "timestamp": "2026-08-14T07:00:00+05:00",
+    "language": "roman_ur",
+    "source_type": "sms",
+    "text": "Chak village mein 8 families ke ghar gir gaye hain, khule aasman ke neeche hain, tent aur kambal chahiye.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-044",
+    "timestamp": "2026-08-14T08:40:00+05:00",
+    "language": "en",
+    "source_type": "volunteer_form",
+    "text": "VOLUNTEER FORM: Chak Village. 8 families (40 people) with collapsed houses, 12 children. Need tents and blankets.",
+    "image_id": null,
+    "image_file": null,
+    "structured": {
+      "location_text": "Chak Village",
+      "people_affected": 40,
+      "vulnerable_people": 12,
+      "medical_emergency": false,
+      "needs": [
+        "shelter",
+        "relief_supplies"
+      ],
+      "water_depth_ft": null
+    },
+    "batch": "baseline"
+  },
+  {
+    "id": "R-045",
+    "timestamp": "2026-08-14T08:55:00+05:00",
+    "language": "en",
+    "source_type": "whatsapp",
+    "text": "Two cars stuck in floodwater near Jinnah Park, five of us are sitting on the roofs. Water is not too deep. Need help to get out.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-046",
+    "timestamp": "2026-08-14T09:15:00+05:00",
+    "language": "roman_ur",
+    "source_type": "hotline_call",
+    "text": "Girls High School ke shelter mein jagah kam pad gayi hai, kambal aur toilet ki kami hai, aur log bhi aa rahe hain.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-047",
+    "timestamp": "2026-08-14T08:50:00+05:00",
+    "language": "en",
+    "source_type": "field_officer",
+    "text": "Field check: Rural Health Center basement is flooded and stored medicines are at risk. Staff are safe. Clinic open for limited hours.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-048",
+    "timestamp": "2026-08-14T07:20:00+05:00",
+    "language": "ur",
+    "source_type": "whatsapp",
+    "text": "میاں گجر بستی میں ہماری بیس بھینسیں پانی میں پھنسی ہوئی ہیں، کوئی مدد کر دیں۔",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-049",
+    "timestamp": "2026-08-14T06:45:00+05:00",
+    "language": "en",
+    "source_type": "social_media",
+    "text": "BREAKING: Dam has burst upstream! Huge wave coming in 30 minutes. Run to high ground and share with everyone!!!",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  },
+  {
+    "id": "R-050",
+    "timestamp": "2026-08-14T07:10:00+05:00",
+    "language": "en",
+    "source_type": "field_officer",
+    "text": "Field check at upstream barrage: structure intact, discharge within limits. The dam burst message on social media is false.",
+    "image_id": null,
+    "image_file": null,
+    "structured": null,
+    "batch": "baseline"
+  }
+]

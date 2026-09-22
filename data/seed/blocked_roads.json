@@ -1,0 +1,57 @@
+[
+  {
+    "id": "BR-01",
+    "name": "Kabul River Bridge approach road",
+    "lat": 34.0108,
+    "lon": 71.9795,
+    "radius_m": 150,
+    "status": "blocked",
+    "reason": "flooding",
+    "reported_at": "2026-08-14T07:00:00+05:00",
+    "source": "field_officer"
+  },
+  {
+    "id": "BR-02",
+    "name": "Tehsil Road Underpass",
+    "lat": 34.0165,
+    "lon": 71.9805,
+    "radius_m": 100,
+    "status": "blocked",
+    "reason": "flooding",
+    "reported_at": "2026-08-14T07:20:00+05:00",
+    "source": "hotline_call"
+  },
+  {
+    "id": "BR-03",
+    "name": "Sadiq Abad link road",
+    "lat": 34.0055,
+    "lon": 71.968,
+    "radius_m": 300,
+    "status": "blocked",
+    "reason": "flooding",
+    "reported_at": "2026-08-14T07:40:00+05:00",
+    "source": "whatsapp"
+  },
+  {
+    "id": "BR-04",
+    "name": "Canal Road at embankment km 2",
+    "lat": 34.019,
+    "lon": 71.9955,
+    "radius_m": 120,
+    "status": "partial",
+    "reason": "embankment seepage",
+    "reported_at": "2026-08-14T08:20:00+05:00",
+    "source": "field_officer"
+  },
+  {
+    "id": "BR-05",
+    "name": "Old Bus Stand to Canal Road link",
+    "lat": 34.014,
+    "lon": 71.98,
+    "radius_m": 100,
+    "status": "disputed",
+    "reason": "debris (reports conflict)",
+    "reported_at": "2026-08-14T08:35:00+05:00",
+    "source": "whatsapp"
+  }
+]

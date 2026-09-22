@@ -1,0 +1,19 @@
+{
+  "id": "flood-sim-001",
+  "name": "Kabul River Flood (SIMULATED)",
+  "description": "A simulated monsoon flood. All names, people and incidents are fictional and exist only for a decision-support prototype demo.",
+  "start_time": "2026-08-14T06:00:00+05:00",
+  "now": "2026-08-14T09:30:00+05:00",
+  "timezone": "Asia/Karachi",
+  "center": {
+    "lat": 34.015,
+    "lon": 71.975
+  },
+  "bounding_box": {
+    "min_lat": 33.99,
+    "max_lat": 34.06,
+    "min_lon": 71.94,
+    "max_lon": 72.02
+  },
+  "disclaimer": "SIMULATED DATA. ReliefMesh AI is a decision-support prototype. It does not replace emergency services, doctors, rescue professionals, or government authorities."
+}

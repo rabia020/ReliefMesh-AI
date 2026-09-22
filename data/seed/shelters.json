@@ -1,0 +1,142 @@
+[
+  {
+    "id": "S-01",
+    "name": "Government Girls High School",
+    "lat": 34.018,
+    "lon": 71.973,
+    "capacity": 250,
+    "current_occupancy": 235,
+    "status": "open",
+    "road_access": "open",
+    "facilities": [
+      "water",
+      "food",
+      "women_area"
+    ],
+    "aliases": [
+      "girls high school",
+      "girls school",
+      "government girls high school"
+    ],
+    "notes": "Nearly full."
+  },
+  {
+    "id": "S-02",
+    "name": "Model Colony Community Hall",
+    "lat": 34.0205,
+    "lon": 71.9715,
+    "capacity": 150,
+    "current_occupancy": 90,
+    "status": "open",
+    "road_access": "open",
+    "facilities": [
+      "water",
+      "food",
+      "blankets"
+    ],
+    "aliases": [],
+    "notes": ""
+  },
+  {
+    "id": "S-03",
+    "name": "Jamia Masjid Relief Complex",
+    "lat": 34.014,
+    "lon": 71.977,
+    "capacity": 300,
+    "current_occupancy": 120,
+    "status": "open",
+    "road_access": "open",
+    "facilities": [
+      "water",
+      "food",
+      "blankets",
+      "medical_corner"
+    ],
+    "aliases": [],
+    "notes": "Has a small medical corner."
+  },
+  {
+    "id": "S-04",
+    "name": "City Sports Complex Indoor Hall",
+    "lat": 34.026,
+    "lon": 71.985,
+    "capacity": 500,
+    "current_occupancy": 210,
+    "status": "open",
+    "road_access": "open",
+    "facilities": [
+      "water",
+      "food",
+      "blankets",
+      "women_area",
+      "medical_corner"
+    ],
+    "aliases": [],
+    "notes": "Largest shelter."
+  },
+  {
+    "id": "S-05",
+    "name": "Government Boys Primary School",
+    "lat": 34.011,
+    "lon": 71.969,
+    "capacity": 120,
+    "current_occupancy": 118,
+    "status": "open",
+    "road_access": "open",
+    "facilities": [
+      "water"
+    ],
+    "aliases": [],
+    "notes": "Effectively full."
+  },
+  {
+    "id": "S-06",
+    "name": "Union Council Office Hall",
+    "lat": 34.0155,
+    "lon": 71.99,
+    "capacity": 60,
+    "current_occupancy": 20,
+    "status": "open",
+    "road_access": "open",
+    "facilities": [
+      "water",
+      "blankets"
+    ],
+    "aliases": [],
+    "notes": ""
+  },
+  {
+    "id": "S-07",
+    "name": "City Higher Secondary School",
+    "lat": 34.029,
+    "lon": 71.974,
+    "capacity": 400,
+    "current_occupancy": 380,
+    "status": "open",
+    "road_access": "open",
+    "facilities": [
+      "water",
+      "food",
+      "women_area"
+    ],
+    "aliases": [],
+    "notes": "Almost full."
+  },
+  {
+    "id": "S-08",
+    "name": "Railway Colony Community Center",
+    "lat": 34.0235,
+    "lon": 71.98,
+    "capacity": 180,
+    "current_occupancy": 40,
+    "status": "open",
+    "road_access": "limited",
+    "facilities": [
+      "water",
+      "food",
+      "blankets"
+    ],
+    "aliases": [],
+    "notes": "Underpass approach is flooded. Reach it from the north."
+  }
+]
