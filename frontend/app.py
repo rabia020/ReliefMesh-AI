@@ -1,52 +1,59 @@
-"""ReliefMesh AI - Streamlit frontend (Phase 1: status page)."""
+"""ReliefMesh AI - Streamlit dashboard (Phase 4)."""
 
-import os
+import sys
+from pathlib import Path
 
-import requests
 import streamlit as st
-from dotenv import load_dotenv
 
-load_dotenv()
-BACKEND_URL = os.getenv("BACKEND_URL", "http://127.0.0.1:8000")
+ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from frontend import db, views  # noqa: E402
 
 st.set_page_config(page_title="ReliefMesh AI", page_icon="🛟", layout="wide")
 
-st.title("🛟 ReliefMesh AI")
-st.caption(
-    "When disaster creates information chaos, ReliefMesh turns that chaos "
-    "into coordinated action."
-)
+PAGES = {
+    "🧭 Command Center": views.render_command_center,
+    "🔍 Incident Intelligence": views.render_incident_intelligence,
+    "🗺️ Live Map": views.render_live_map_placeholder,
+    "🚑 Resource Center": views.render_resource_center,
+    "🤖 AI Copilot": views.render_copilot_placeholder,
+    "✅ Approval Center": views.render_approval_placeholder,
+    "📜 Audit Log": views.render_audit_log,
+}
 
-st.warning(
-    "SIMULATED DEMO DATA. ReliefMesh AI is a decision-support prototype. "
-    "It does not replace emergency services, doctors, rescue professionals, "
-    "or government authorities."
-)
 
-st.subheader("System status")
-col1, col2 = st.columns(2)
+def main():
+    st.sidebar.title("🛟 ReliefMesh AI")
+    st.sidebar.caption("SIMULATED demo data. Decision-support prototype only.")
 
-with col1:
-    st.metric("Frontend (Streamlit)", "Online")
-
-with col2:
-    try:
-        response = requests.get(f"{BACKEND_URL}/health", timeout=3)
-        response.raise_for_status()
-        st.metric("Backend (FastAPI)", "Online")
-        with st.expander("Backend response"):
-            st.json(response.json())
-    except requests.exceptions.RequestException:
-        st.metric("Backend (FastAPI)", "Offline")
-        st.info(
-            "Start the backend in a second terminal:\n\n"
-            "`uvicorn backend.main:app --reload --port 8000`"
+    if not db.database_exists():
+        st.error(
+            "No database found. Open a terminal in the project root and run:\n\n"
+            "`python scripts/init_db.py`\n\nthen refresh this page."
         )
+        st.stop()
 
-st.subheader("Build progress")
-st.markdown(
-    "- ✅ Phase 1: Project setup\n"
-    "- ✅ Phase 2: Synthetic disaster dataset\n"
-    "- ⬜ Phase 3: SQLite database\n"
-    "- ⬜ Phase 4+: Dashboard, agents, MCP, approvals..."
-)
+    page = st.sidebar.radio("Go to", list(PAGES.keys()), label_visibility="collapsed")
+
+    with st.sidebar.expander("⚙️ Demo controls"):
+        st.caption("Resets ALL data back to the original simulated starting state.")
+        confirm = st.checkbox("I understand this erases current progress")
+        if st.button("Reset demo data", disabled=not confirm, use_container_width=True):
+            db.reset_demo_data()
+            st.success("Demo data reset.")
+            st.rerun()
+
+    st.warning(
+        "⚠️ SIMULATED DEMO DATA. ReliefMesh AI is a decision-support prototype. "
+        "It does not replace emergency services, doctors, rescue professionals, "
+        "or government authorities.",
+        icon="⚠️",
+    )
+
+    PAGES[page]()
+
+
+if __name__ == "__main__":
+    main()
