@@ -17,6 +17,7 @@ PAGES = {
     "🔍 Incident Intelligence": views.render_incident_intelligence,
     "🗺️ Live Map": views.render_live_map_placeholder,
     "🚑 Resource Center": views.render_resource_center,
+    "🧪 LLM Test": views.render_llm_test,
     "🤖 AI Copilot": views.render_copilot_placeholder,
     "✅ Approval Center": views.render_approval_placeholder,
     "📜 Audit Log": views.render_audit_log,

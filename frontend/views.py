@@ -240,3 +240,23 @@ def render_approval_placeholder():
         "with Approve, Reject, and Request More Information buttons. No action is ever "
         "executed without a human decision — the database itself enforces this."
     )
+
+
+def render_llm_test():
+    st.header("🧪 LLM Connection Test")
+    st.caption(
+        "Temporary page for Phase 6, used to confirm your Gemini (or Ollama) setup works. "
+        "This page will be replaced by the real AI Copilot in Phase 20."
+    )
+    prompt = st.text_area("Prompt to send", value="Reply with exactly one word: OK")
+    if st.button("Send to LLM"):
+        with st.spinner("Waiting for a response... (this can take up to 30 seconds)"):
+            try:
+                result = db.test_llm(prompt)
+                st.success(
+                    f"Provider: **{result['provider']}** · Model: **{result['model']}** · "
+                    f"{result['elapsed_ms']} ms"
+                )
+                st.write(result["output"])
+            except db.BackendError as error:
+                st.error(str(error))

@@ -10,6 +10,9 @@ from backend import config
 from database import queries as q
 from database.connection import get_connection
 from database.seed import init_database
+from pydantic import BaseModel
+
+from llm.client import LLMError, get_llm_client
 
 app = FastAPI(
     title=config.APP_NAME,
@@ -142,6 +145,27 @@ def list_audit_logs(
     conn=Depends(get_db),
 ):
     return q.list_audit_logs(conn, incident_id=incident_id, limit=limit)
+
+
+# --------------------------------------------------------------------- LLM
+class LLMTestRequest(BaseModel):
+    prompt: str = "Reply with exactly one word: OK"
+
+
+@app.post("/llm/test")
+def llm_test(body: LLMTestRequest):
+    """Manual connectivity check for the configured LLM provider (Phase 6)."""
+    client = get_llm_client()
+    try:
+        result = client.complete(body.prompt)
+    except LLMError as error:
+        raise HTTPException(status_code=502, detail=str(error))
+    return {
+        "provider": result.provider,
+        "model": result.model,
+        "output": result.output,
+        "elapsed_ms": result.elapsed_ms,
+    }
 
 
 # ------------------------------------------------------------------- admin

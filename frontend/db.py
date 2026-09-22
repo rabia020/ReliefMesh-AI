@@ -101,3 +101,18 @@ def inject_demo_reports():
 
 def reset_demo_data():
     return _post("/admin/reset-demo")
+
+def test_llm(prompt: str = "Reply with exactly one word: OK"):
+    """Calls POST /llm/test. Uses a longer timeout, since LLM calls are slower
+    than the other endpoints."""
+    try:
+        response = requests.post(f"{BACKEND_URL}/llm/test", json={"prompt": prompt}, timeout=45)
+    except requests.exceptions.RequestException as error:
+        raise BackendError(f"Could not reach the backend at {BACKEND_URL}: {error}") from error
+    if not response.ok:
+        try:
+            detail = response.json().get("detail", response.text)
+        except ValueError:
+            detail = response.text
+        raise BackendError(detail)
+    return response.json()

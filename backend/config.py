@@ -22,6 +22,9 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen2.5:7b")
 
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+LLM_TIMEOUT_SECONDS = int(os.getenv("LLM_TIMEOUT_SECONDS", "30"))
+
 SAFETY_DISCLAIMER = (
     "ReliefMesh AI is a decision-support prototype using SIMULATED data. "
     "It does not replace emergency services, doctors, rescue professionals, "
