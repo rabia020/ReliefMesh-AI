@@ -1,75 +1,103 @@
-"""Read/write helpers the Streamlit dashboard uses to talk to the SQLite database.
+"""Talks to the ReliefMesh FastAPI backend over HTTP.
 
-Every function opens its own short-lived connection. The database is small,
-so this is simpler and safer than sharing one connection across Streamlit's
-worker threads.
+frontend/views.py and frontend/app.py import this module without knowing (or
+caring) whether the data comes from a direct database connection or an API
+call. This file changed in Phase 5; the rest of the frontend did not.
 """
 
-import sys
-from pathlib import Path
+import os
 
-ROOT = Path(__file__).resolve().parent.parent
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
+import requests
+from dotenv import load_dotenv
 
-from database import queries as q
-from database.connection import get_connection, resolve_db_path
-from database.seed import init_database
+load_dotenv()
+BACKEND_URL = os.getenv("BACKEND_URL", "http://127.0.0.1:8000").rstrip("/")
+TIMEOUT = 8
 
 
-def database_exists() -> bool:
-    return resolve_db_path().exists()
+class BackendError(Exception):
+    """Raised when the backend cannot be reached or returns an unexpected error."""
 
 
-def run(fn, *args, **kwargs):
-    """Opens a connection, calls fn(conn, *args, **kwargs), then closes it."""
-    conn = get_connection()
+def _get(path, params=None):
     try:
-        return fn(conn, *args, **kwargs)
-    finally:
-        conn.close()
+        response = requests.get(f"{BACKEND_URL}{path}", params=params, timeout=TIMEOUT)
+    except requests.exceptions.RequestException as error:
+        raise BackendError(f"Could not reach the backend at {BACKEND_URL}: {error}") from error
+    if response.status_code == 404:
+        return None
+    if not response.ok:
+        raise BackendError(f"Backend returned {response.status_code} for {path}: {response.text}")
+    return response.json()
+
+
+def _post(path, params=None):
+    try:
+        response = requests.post(f"{BACKEND_URL}{path}", params=params, timeout=TIMEOUT)
+    except requests.exceptions.RequestException as error:
+        raise BackendError(f"Could not reach the backend at {BACKEND_URL}: {error}") from error
+    if not response.ok:
+        raise BackendError(f"Backend returned {response.status_code} for {path}: {response.text}")
+    return response.json()
+
+
+def backend_ready() -> bool:
+    """True if the backend is reachable and its database is seeded."""
+    try:
+        health = _get("/health")
+        if health is None:
+            return False
+        summary = _get("/summary")
+        return summary is not None
+    except BackendError:
+        return False
+
+
+# Kept as an alias so frontend/app.py's existing check still works unchanged.
+def database_exists() -> bool:
+    return backend_ready()
 
 
 def get_summary():
-    return run(q.get_command_center_summary)
+    return _get("/summary")
 
 
 def get_scenario():
-    return run(q.get_scenario)
+    return _get("/scenario")
 
 
 def get_incidents(**filters):
-    return run(q.list_incidents, **filters)
+    return _get("/incidents", params=filters)
 
 
 def get_incident(incident_id):
-    return run(q.get_incident, incident_id)
+    return _get(f"/incidents/{incident_id}")
 
 
 def get_resources(**filters):
-    return run(q.list_resources, **filters)
+    return _get("/resources", params=filters)
 
 
 def get_shelters(**filters):
-    return run(q.list_shelters, **filters)
+    return _get("/shelters", params=filters)
 
 
 def get_hospitals():
-    return run(q.list_hospitals)
+    return _get("/hospitals")
 
 
 def get_audit_logs(**filters):
-    return run(q.list_audit_logs, **filters)
+    return _get("/audit-logs", params=filters)
 
 
 def get_actions(**filters):
-    return run(q.list_actions, **filters)
+    return _get("/actions", params=filters)
 
 
 def inject_demo_reports():
-    return run(q.inject_demo_reports)
+    body = _post("/reports/inject")
+    return body["injected_report_ids"]
 
 
 def reset_demo_data():
-    """Rebuilds the database from data/seed/*.json (the sidebar 'Reset demo' button)."""
-    return init_database()
+    return _post("/admin/reset-demo")

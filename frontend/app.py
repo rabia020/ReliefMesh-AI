@@ -1,5 +1,3 @@
-"""ReliefMesh AI - Streamlit dashboard (Phase 4)."""
-
 import sys
 from pathlib import Path
 
@@ -10,6 +8,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from frontend import db, views  # noqa: E402
+from frontend.db import BackendError  # noqa: E402
 
 st.set_page_config(page_title="ReliefMesh AI", page_icon="🛟", layout="wide")
 
@@ -30,8 +29,10 @@ def main():
 
     if not db.database_exists():
         st.error(
-            "No database found. Open a terminal in the project root and run:\n\n"
-            "`python scripts/init_db.py`\n\nthen refresh this page."
+            "Cannot reach the backend or its database.\n\n"
+            f"1. Make sure the backend is running: `uvicorn backend.main:app --reload --port 8000`\n"
+            f"2. Make sure the database is seeded: `python scripts/init_db.py`\n"
+            f"3. Check that BACKEND_URL in your .env matches the backend's address."
         )
         st.stop()
 
@@ -52,7 +53,10 @@ def main():
         icon="⚠️",
     )
 
-    PAGES[page]()
+    try:
+        PAGES[page]()
+    except BackendError as error:
+        st.error(f"Lost connection to the backend while loading this page: {error}")
 
 
 if __name__ == "__main__":
