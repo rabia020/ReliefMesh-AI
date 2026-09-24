@@ -1,9 +1,4 @@
-"""Query helpers for the ReliefMesh SQLite database.
-
-Every function takes an open connection first and returns plain Python
-dicts/lists (JSON columns already decoded). FastAPI, Streamlit, the agents
-and the MCP servers will all reuse these functions.
-"""
+"""Query helpers for the ReliefMesh SQLite database."""
 
 import json
 from datetime import datetime, timezone
@@ -45,7 +40,6 @@ def _rows(cursor):
     return [_to_dict(row) for row in cursor.fetchall()]
 
 
-# ---------------------------------------------------------------- general
 def table_counts(conn) -> dict:
     return {t: conn.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0] for t in TABLES}
 
@@ -55,9 +49,7 @@ def get_scenario(conn) -> dict:
     return json.loads(row["value"])
 
 
-# -------------------------------------------------------------- incidents
 def list_incidents(conn, priority=None, status=None, medical_only=False, active_only=False):
-    """Incidents sorted Critical first, then by number of people affected."""
     sql = (
         "SELECT incidents.*, "
         "(SELECT COUNT(*) FROM reports WHERE reports.incident_id = incidents.id) AS report_count "
@@ -79,7 +71,6 @@ def list_incidents(conn, priority=None, status=None, medical_only=False, active_
 
 
 def get_incident(conn, incident_id):
-    """One incident with all of its reports, or None if it does not exist."""
     row = conn.execute("SELECT * FROM incidents WHERE id = ?", (incident_id,)).fetchone()
     if row is None:
         return None
@@ -88,7 +79,6 @@ def get_incident(conn, incident_id):
     return incident
 
 
-# ---------------------------------------------------------------- reports
 def list_reports(conn, incident_id=None, status=None):
     sql = "SELECT * FROM reports WHERE 1 = 1"
     params = []
@@ -102,9 +92,14 @@ def list_reports(conn, incident_id=None, status=None):
     return _rows(conn.execute(sql, params))
 
 
+def get_report(conn, report_id):
+    """One report by id, or None if it does not exist. (Added in Phase 7 for the
+    Intake Agent, which needs to load a single report to run extraction on.)"""
+    row = conn.execute("SELECT * FROM reports WHERE id = ?", (report_id,)).fetchone()
+    return _to_dict(row)
+
+
 def inject_demo_reports(conn, actor="human:demo_operator"):
-    """Demo step: moves the queued reports to 'received' so the agents can process them.
-    Returns the injected report ids (empty list if nothing was queued)."""
     ids = [r["id"] for r in conn.execute(
         "SELECT id FROM reports WHERE status = 'queued' ORDER BY timestamp, id")]
     if not ids:
@@ -112,11 +107,10 @@ def inject_demo_reports(conn, actor="human:demo_operator"):
     conn.executemany("UPDATE reports SET status = 'received' WHERE id = ?", [(i,) for i in ids])
     log_audit(conn, actor=actor, event_type="reports_injected",
               message=f"{len(ids)} citizen reports injected into the system",
-              details={"report_ids": ids})          # log_audit also commits the update
+              details={"report_ids": ids})
     return ids
 
 
-# -------------------------------------------------------------- resources
 def list_resources(conn, type=None, status=None):
     sql = "SELECT * FROM resources WHERE 1 = 1"
     params = []
@@ -131,7 +125,6 @@ def list_resources(conn, type=None, status=None):
 
 
 def list_shelters(conn, min_free=None):
-    """Shelters with a computed free_capacity. min_free keeps only shelters with room."""
     sql = "SELECT *, capacity - current_occupancy AS free_capacity FROM shelters WHERE 1 = 1"
     params = []
     if min_free is not None:
@@ -140,12 +133,14 @@ def list_shelters(conn, min_free=None):
     sql += " ORDER BY id"
     return _rows(conn.execute(sql, params))
 
+def list_places(conn):
+    return _rows(conn.execute("SELECT * FROM places ORDER BY id"))
+
 
 def list_hospitals(conn):
     return _rows(conn.execute("SELECT * FROM hospitals ORDER BY id"))
 
 
-# ---------------------------------------------------------- command center
 def get_command_center_summary(conn) -> dict:
     def one(sql):
         return conn.execute(sql).fetchone()[0] or 0
@@ -178,10 +173,8 @@ def get_command_center_summary(conn) -> dict:
     }
 
 
-# ---------------------------------------------------- actions and audit log
 def log_audit(conn, actor, event_type, message, incident_id=None,
               action_id=None, details=None, timestamp=None):
-    """Adds one line to the append-only audit log and saves it."""
     conn.execute(
         "INSERT INTO audit_logs (timestamp, actor, event_type, incident_id, action_id, message, details) "
         "VALUES (?, ?, ?, ?, ?, ?, ?)",
@@ -204,8 +197,6 @@ def list_audit_logs(conn, incident_id=None, limit=200):
 
 def create_proposed_action(conn, incident_id, action_type, title, reason,
                            resource_ids, proposed_by):
-    """Stores an AI proposal with status 'proposed'. Nothing is dispatched.
-    (Approve/reject logic comes in Phase 17.)"""
     cursor = conn.execute(
         "INSERT INTO actions (incident_id, action_type, title, reason, resource_ids, "
         "status, proposed_by, proposed_at) VALUES (?, ?, ?, ?, ?, 'proposed', ?, ?)",

@@ -1,7 +1,4 @@
-"""SQLite table definitions for ReliefMesh AI (SIMULATED data only).
-
-create_schema() wipes any old tables and builds fresh, empty ones.
-"""
+"""SQLite table definitions for ReliefMesh AI (SIMULATED data only)."""
 
 DROP_SQL = """
 DROP TABLE IF EXISTS audit_logs;
@@ -17,13 +14,11 @@ DROP TABLE IF EXISTS meta;
 """
 
 SCHEMA_SQL = """
--- Scenario information (name, demo clock, disclaimer) stored as JSON.
 CREATE TABLE meta (
     key   TEXT PRIMARY KEY,
     value TEXT NOT NULL
 );
 
--- Gazetteer: localities, shelters and hospitals with English/Urdu names and aliases.
 CREATE TABLE places (
     id      TEXT PRIMARY KEY,
     name    TEXT NOT NULL,
@@ -31,7 +26,7 @@ CREATE TABLE places (
     kind    TEXT NOT NULL,
     lat     REAL NOT NULL,
     lon     REAL NOT NULL,
-    aliases TEXT NOT NULL DEFAULT '[]'          -- JSON list
+    aliases TEXT NOT NULL DEFAULT '[]'
 );
 
 CREATE TABLE incidents (
@@ -47,14 +42,14 @@ CREATE TABLE incidents (
     medical_emergency   INTEGER NOT NULL DEFAULT 0 CHECK (medical_emergency IN (0, 1)),
     medical_severity    INTEGER NOT NULL DEFAULT 0 CHECK (medical_severity BETWEEN 0 AND 3),
     isolation           INTEGER NOT NULL DEFAULT 0 CHECK (isolation BETWEEN 0 AND 2),
-    required_resources  TEXT NOT NULL DEFAULT '[]',   -- JSON list
+    required_resources  TEXT NOT NULL DEFAULT '[]',
     priority            TEXT CHECK (priority IN ('Critical', 'High', 'Medium', 'Low')),
-    priority_score      REAL,                          -- filled by the Priority Agent (Phase 10)
+    priority_score      REAL,
     evidence_confidence INTEGER CHECK (evidence_confidence BETWEEN 0 AND 100),
     status              TEXT NOT NULL DEFAULT 'open'
                         CHECK (status IN ('open', 'in_progress', 'resolved', 'unverified')),
     conflict_note       TEXT,
-    summary             TEXT,                          -- filled by the Reporter Agent
+    summary             TEXT,
     first_report_time   TEXT,
     last_report_time    TEXT,
     origin              TEXT NOT NULL DEFAULT 'pipeline' CHECK (origin IN ('seed', 'pipeline'))
@@ -68,7 +63,7 @@ CREATE TABLE reports (
     text        TEXT NOT NULL,
     image_id    TEXT,
     image_file  TEXT,
-    structured  TEXT,                                  -- JSON (field/volunteer forms) or NULL
+    structured  TEXT,
     batch       TEXT NOT NULL CHECK (batch IN ('baseline', 'demo', 'live')),
     status      TEXT NOT NULL CHECK (status IN ('queued', 'received', 'processed')),
     incident_id TEXT REFERENCES incidents(id)
@@ -86,7 +81,7 @@ CREATE TABLE resources (
     lon                REAL NOT NULL,
     crew_size          INTEGER NOT NULL DEFAULT 0,
     capacity_people    INTEGER NOT NULL DEFAULT 0,
-    capabilities       TEXT NOT NULL DEFAULT '[]',     -- JSON list
+    capabilities       TEXT NOT NULL DEFAULT '[]',
     current_assignment TEXT
 );
 
@@ -99,7 +94,7 @@ CREATE TABLE shelters (
     current_occupancy INTEGER NOT NULL CHECK (current_occupancy >= 0),
     status            TEXT NOT NULL CHECK (status IN ('open', 'closed')),
     road_access       TEXT NOT NULL CHECK (road_access IN ('open', 'limited', 'blocked')),
-    facilities        TEXT NOT NULL DEFAULT '[]',      -- JSON list
+    facilities        TEXT NOT NULL DEFAULT '[]',
     notes             TEXT,
     CHECK (current_occupancy <= capacity)
 );
@@ -115,7 +110,7 @@ CREATE TABLE hospitals (
     icu_available   INTEGER NOT NULL CHECK (icu_available >= 0),
     emergency_open  INTEGER NOT NULL CHECK (emergency_open IN (0, 1)),
     status          TEXT NOT NULL CHECK (status IN ('operational', 'limited', 'closed')),
-    specialties     TEXT NOT NULL DEFAULT '[]',        -- JSON list
+    specialties     TEXT NOT NULL DEFAULT '[]',
     notes           TEXT,
     CHECK (available_beds <= total_beds),
     CHECK (icu_available <= icu_total)
@@ -133,14 +128,13 @@ CREATE TABLE blocked_roads (
     source      TEXT
 );
 
--- AI proposals and human decisions. The database itself enforces human approval.
 CREATE TABLE actions (
     id            INTEGER PRIMARY KEY AUTOINCREMENT,
     incident_id   TEXT NOT NULL REFERENCES incidents(id),
     action_type   TEXT NOT NULL,
     title         TEXT NOT NULL,
     reason        TEXT NOT NULL,
-    resource_ids  TEXT NOT NULL DEFAULT '[]',          -- JSON list
+    resource_ids  TEXT NOT NULL DEFAULT '[]',
     status        TEXT NOT NULL DEFAULT 'proposed'
                   CHECK (status IN ('proposed', 'executed', 'rejected', 'info_requested')),
     proposed_by   TEXT NOT NULL,
@@ -158,16 +152,15 @@ CREATE TABLE actions (
         CHECK (status <> 'executed' OR executed_at IS NOT NULL)
 );
 
--- Append-only history of everything that happens.
 CREATE TABLE audit_logs (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
     timestamp   TEXT NOT NULL,
-    actor       TEXT NOT NULL,                         -- 'system', 'ai:...', 'human:...'
+    actor       TEXT NOT NULL,
     event_type  TEXT NOT NULL,
     incident_id TEXT REFERENCES incidents(id),
     action_id   INTEGER REFERENCES actions(id),
     message     TEXT NOT NULL,
-    details     TEXT NOT NULL DEFAULT '{}'             -- JSON object
+    details     TEXT NOT NULL DEFAULT '{}'
 );
 
 CREATE TRIGGER audit_logs_no_update BEFORE UPDATE ON audit_logs
@@ -183,6 +176,5 @@ END;
 
 
 def create_schema(conn) -> None:
-    """Drops all ReliefMesh tables (if present) and creates fresh empty ones."""
     conn.executescript(DROP_SQL)
     conn.executescript(SCHEMA_SQL)
