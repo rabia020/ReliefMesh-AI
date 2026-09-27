@@ -127,7 +127,24 @@ def run_intake(report: dict, conn=None, llm_client=None) -> dict:
     if conn is not None:
         places = load_places(conn)
         place_match = match_location(clean["location_text"], places)
+        used_fallback = False
         if place_match["place_id"] is None:
+            # The LLM's paraphrase sometimes drops the actual place name — a
+            # terse follow-up report ("that side", "the same area") can read
+            # as vague on its own even though the original text still names
+            # the place (observed in practice on real Gemini output for a
+            # short Roman Urdu follow-up report during Phase 8 testing).
+            # Retry against the ORIGINAL report text as a safety net.
+            fallback_match = match_location(report.get("text", ""), places)
+            if fallback_match["place_id"] is not None:
+                place_match = fallback_match
+                used_fallback = True
+        if place_match["place_id"] is not None and used_fallback:
+            notes.append(
+                f"location_text {clean['location_text']!r} did not match a known place; "
+                "matched from the original report text instead"
+            )
+        elif place_match["place_id"] is None:
             notes.append(f"could not match location_text {clean['location_text']!r} to a known place")
 
     return {

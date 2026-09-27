@@ -9,7 +9,7 @@ import os
 from dotenv import load_dotenv
 
 # Reads the .env file (if it exists) into environment variables.
-load_dotenv()
+load_dotenv(override=True)
 
 APP_NAME = "ReliefMesh AI"
 APP_VERSION = "0.1.0"
@@ -23,6 +23,8 @@ OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen2.5:7b")
 
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
 LLM_TIMEOUT_SECONDS = int(os.getenv("LLM_TIMEOUT_SECONDS", "30"))
 
 SAFETY_DISCLAIMER = (

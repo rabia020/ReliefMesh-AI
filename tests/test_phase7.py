@@ -12,6 +12,9 @@ from database.seed import init_database
 from llm.client import LLMError
 
 
+
+    
+
 class FakeLLM:
     """A stand-in for llm.client.LLMClient. complete_json_return can be a dict
     (always returned) or a callable taking the prompt/system and returning one,
@@ -123,6 +126,29 @@ def test_gazetteer_containment_match_with_extra_words(db):
     result = match_location("near the Kabul River Bridge east bank", places)
     assert result["place_id"] == "L-BRIDGE"
     assert result["confidence"] == "contains"
+
+
+def test_gazetteer_matches_short_urdu_word_for_bridge(db):
+    """Regression test: 'پل' (2 characters) and 'pul' (3 characters) are both
+    shorter than the old character-length guard and were previously never
+    matched at all — found via a real Gemini run during Phase 8 testing."""
+    places = load_places(db)
+    result = match_location("پل کے قریب سڑک بند ہو گئی ہے", places)
+    assert result["place_id"] == "L-BRIDGE"
+
+
+def test_gazetteer_matches_short_roman_urdu_word_for_bridge(db):
+    places = load_places(db)
+    result = match_location("Pul ke paas 10 families phansi hui hain", places)
+    assert result["place_id"] == "L-BRIDGE"
+
+
+def test_gazetteer_short_word_does_not_false_match_inside_longer_word(db):
+    """Whole-word matching must not let a short alias match merely as a
+    substring inside an unrelated longer word."""
+    places = load_places(db)
+    result = match_location("the pulley system was jammed", places)
+    assert result["place_id"] is None
 
 
 def test_gazetteer_matches_roman_urdu_alias(db):
@@ -246,6 +272,25 @@ def test_run_intake_overrides_with_structured_form_data(db):
     assert any("overridden by structured form" in n for n in result["extraction_notes"])
 
 
+def test_run_intake_falls_back_to_raw_text_for_location_matching(db):
+    """Reproduces a real Gemini behavior found during Phase 8 testing: a terse
+    follow-up report's paraphrased location_text can drop the actual place
+    name even though the original text still names it."""
+    report = _report(
+        id="R-007", language="roman_ur", source_type="whatsapp",
+        text="Bridge wali side pe sirf 15-20 log hain, baqi log nikal gaye hain.",
+    )
+    fake = FakeLLM({
+        "incident_type": "trapped_residents", "location_text": "that side",  # vague, no gazetteer match
+        "estimated_affected": 18, "vulnerable_people": 0, "medical_emergency": False,
+        "medical_severity": 0, "required_resources": [], "isolation": 1,
+    })
+    result = run_intake(report, conn=db, llm_client=fake)
+    assert result["place_id"] == "L-BRIDGE"
+    assert result["place_match_confidence"] == "contains"
+    assert any("matched from the original report text" in n for n in result["extraction_notes"])
+    
+
 def test_run_intake_on_all_seven_demo_reports_with_fake_llm(db):
     """Confirms the agent can run over every queued demo report without crashing,
     using a fake LLM that gives a plausible bridge-incident extraction each time."""
@@ -263,3 +308,7 @@ def test_run_intake_on_all_seven_demo_reports_with_fake_llm(db):
     results = [run_intake(r, conn=db, llm_client=fake) for r in demo_reports]
     assert all(r["place_id"] == "L-BRIDGE" for r in results)
     assert [r["report_id"] for r in results] == [f"R-00{i}" for i in range(1, 8)]
+
+
+
+

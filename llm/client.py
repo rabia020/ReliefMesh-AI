@@ -64,6 +64,39 @@ def _call_gemini(prompt: str, system: Optional[str], temperature: float, max_out
     return text.strip()
 
 
+def _call_groq(prompt, system, temperature, max_output_tokens):
+    if not config.GROQ_API_KEY:
+        raise LLMError(
+            "GROQ_API_KEY is empty. Get a free key at https://console.groq.com/keys "
+            "and add it to your .env file."
+        )
+    messages = ([{"role": "system", "content": system}] if system else []) + [
+        {"role": "user", "content": prompt}
+    ]
+    try:
+        response = requests.post(
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers={"Authorization": f"Bearer {config.GROQ_API_KEY}"},
+            json={
+                "model": config.GROQ_MODEL, "messages": messages,
+                "temperature": temperature, "max_tokens": max_output_tokens,
+            },
+            timeout=config.LLM_TIMEOUT_SECONDS,
+        )
+        response.raise_for_status()
+    except requests.exceptions.RequestException as error:
+        raise LLMError(
+            f"Groq request failed with model '{config.GROQ_MODEL}': {error}. "
+            "If this says the model was not found, check current model names at "
+            "https://console.groq.com/docs/models and update GROQ_MODEL in .env."
+        ) from error
+    body = response.json()
+    text = body.get("choices", [{}])[0].get("message", {}).get("content", "")
+    if not text:
+        raise LLMError("Groq returned an empty response.")
+    return text.strip()
+
+
 def _call_ollama(prompt: str, system: Optional[str], temperature: float, max_output_tokens: int) -> str:
     full_prompt = f"{system}\n\n{prompt}" if system else prompt
     try:
@@ -97,21 +130,26 @@ def _call_ollama(prompt: str, system: Optional[str], temperature: float, max_out
 _PROVIDERS = {
     "gemini": lambda *a, **k: _call_gemini(*a, **k),
     "ollama": lambda *a, **k: _call_ollama(*a, **k),
+    "groq": lambda *a, **k: _call_groq(*a, **k),
+}
+
+_MODEL_BY_PROVIDER = {
+    "gemini": lambda: config.GEMINI_MODEL,
+    "ollama": lambda: config.OLLAMA_MODEL,
+    "groq": lambda: config.GROQ_MODEL,
 }
 
 
 class LLMClient:
-    """Thin wrapper that dispatches to the configured provider."""
-
     def __init__(self, provider: Optional[str] = None):
         self.provider = provider or config.LLM_PROVIDER
         if self.provider not in _PROVIDERS:
-            raise LLMError(f"Unknown LLM_PROVIDER '{self.provider}'. Use 'gemini' or 'ollama'.")
+            raise LLMError(f"Unknown LLM_PROVIDER '{self.provider}'. Use 'gemini', 'ollama', or 'groq'.")
 
     @property
     def model(self) -> str:
-        return config.GEMINI_MODEL if self.provider == "gemini" else config.OLLAMA_MODEL
-
+        return _MODEL_BY_PROVIDER[self.provider]()
+    
     def complete(self, prompt: str, system: Optional[str] = None,
                  temperature: float = 0.2, max_output_tokens: int = 1024) -> LLMResult:
         """Sends one prompt to the configured provider and returns the text response."""

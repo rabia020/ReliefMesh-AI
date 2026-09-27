@@ -46,6 +46,7 @@ def match_location(location_text: str, places: list[dict]):
     normalized_text = _normalize(location_text)
     if not normalized_text:
         return result
+    text_words = set(normalized_text.split())
 
     # 1. Exact match: the whole (normalized) text equals a known alias.
     for place in places:
@@ -53,14 +54,25 @@ def match_location(location_text: str, places: list[dict]):
             return {"place_id": place["id"], "place_name": place["name"],
                     "confidence": "exact", "matched_alias": normalized_text}
 
-    # 2. Containment: a known alias appears inside the text, or vice versa.
-    #    Longer aliases first, so "old bus stand" wins over a short alias like "bus".
+    # 2. Containment. Longer aliases first, so "old bus stand" wins over a
+    #    short alias like "bus". Multi-word alias phrases ("river bridge")
+    #    use a minimum-length substring check to avoid coincidental partial
+    #    matches. Single-word aliases match as a WHOLE WORD instead, at any
+    #    length — this is what correctly catches short-but-unambiguous
+    #    aliases like Urdu "پل" (2 characters) or Roman Urdu "pul" (3
+    #    characters) for "bridge", which a raw character-count minimum would
+    #    otherwise exclude, without risking a short alias matching merely as
+    #    a substring inside an unrelated longer word.
     candidates = sorted(
         ((place, alias) for place in places for alias in place["_normalized_aliases"]),
         key=lambda pair: len(pair[1]), reverse=True,
     )
     for place, alias in candidates:
-        if len(alias) >= 4 and (alias in normalized_text or normalized_text in alias):
+        if " " in alias:
+            if len(alias) >= 4 and (alias in normalized_text or normalized_text in alias):
+                return {"place_id": place["id"], "place_name": place["name"],
+                        "confidence": "contains", "matched_alias": alias}
+        elif alias in text_words:
             return {"place_id": place["id"], "place_name": place["name"],
                     "confidence": "contains", "matched_alias": alias}
 
