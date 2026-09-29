@@ -64,6 +64,21 @@ def _call_gemini(prompt: str, system: Optional[str], temperature: float, max_out
     return text.strip()
 
 
+_RETRYABLE_STATUS = {429, 500, 502, 503, 504}
+
+
+def _retry_delay(response, attempt: int) -> float:
+    """Seconds to wait before retrying. Honors the server's Retry-After header
+    when present, otherwise backs off 1s, 2s, 4s. Capped so a run never stalls."""
+    header = response.headers.get("retry-after") if response is not None else None
+    try:
+        if header:
+            return min(float(header), 30.0)
+    except ValueError:
+        pass
+    return min(2.0 ** attempt, 30.0)
+
+
 def _call_groq(prompt, system, temperature, max_output_tokens):
     if not config.GROQ_API_KEY:
         raise LLMError(
@@ -73,28 +88,43 @@ def _call_groq(prompt, system, temperature, max_output_tokens):
     messages = ([{"role": "system", "content": system}] if system else []) + [
         {"role": "user", "content": prompt}
     ]
-    try:
-        response = requests.post(
-            "https://api.groq.com/openai/v1/chat/completions",
-            headers={"Authorization": f"Bearer {config.GROQ_API_KEY}"},
-            json={
-                "model": config.GROQ_MODEL, "messages": messages,
-                "temperature": temperature, "max_tokens": max_output_tokens,
-            },
-            timeout=config.LLM_TIMEOUT_SECONDS,
-        )
-        response.raise_for_status()
-    except requests.exceptions.RequestException as error:
-        raise LLMError(
-            f"Groq request failed with model '{config.GROQ_MODEL}': {error}. "
-            "If this says the model was not found, check current model names at "
-            "https://console.groq.com/docs/models and update GROQ_MODEL in .env."
-        ) from error
-    body = response.json()
-    text = body.get("choices", [{}])[0].get("message", {}).get("content", "")
-    if not text:
+    payload = {"model": config.GROQ_MODEL, "messages": messages,
+               "temperature": temperature, "max_tokens": max_output_tokens}
+    headers = {"Authorization": f"Bearer {config.GROQ_API_KEY}"}
+    url = "https://api.groq.com/openai/v1/chat/completions"
+    max_retries = config.LLM_MAX_RETRIES
+
+    for attempt in range(max_retries + 1):
+        last_attempt = attempt == max_retries
+        try:
+            response = requests.post(url, headers=headers, json=payload,
+                                     timeout=config.LLM_TIMEOUT_SECONDS)
+        except requests.exceptions.RequestException as error:
+            if last_attempt:
+                raise LLMError(f"Groq request failed with model '{config.GROQ_MODEL}': {error}") from error
+            time.sleep(min(2.0 ** attempt, 30.0))
+            continue
+
+        if response.status_code in _RETRYABLE_STATUS and not last_attempt:
+            time.sleep(_retry_delay(response, attempt))      # rate limit or temporary server error
+            continue
+
+        try:
+            response.raise_for_status()
+        except requests.exceptions.RequestException as error:
+            raise LLMError(
+                f"Groq request failed with model '{config.GROQ_MODEL}': {error}. "
+                "If this says the model was not found, check current model names at "
+                "https://console.groq.com/docs/models and update GROQ_MODEL in .env."
+            ) from error
+
+        text = response.json().get("choices", [{}])[0].get("message", {}).get("content", "")
+        if text and text.strip():
+            return text.strip()
+        if not last_attempt:                                  # empty reply: try again
+            time.sleep(1.0)
+            continue
         raise LLMError("Groq returned an empty response.")
-    return text.strip()
 
 
 def _call_ollama(prompt: str, system: Optional[str], temperature: float, max_output_tokens: int) -> str:

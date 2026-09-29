@@ -104,24 +104,44 @@ def cluster_reports(extractions: list[dict], embeddings: list[list[float]],
                      no_place_threshold: float = NO_PLACE_SIM_THRESHOLD) -> list[list[int]]:
     """Groups report indices into duplicate/related-report clusters.
 
-    Two reports are linked if they resolved to the SAME known place (from
-    Phase 7's gazetteer match) and are at least somewhat similar, OR if
-    neither resolved a place but their content is highly similar. The
-    same-place bar is deliberately low and the no-place bar deliberately
-    high. This is what keeps two different incidents at the same real-world
-    place (e.g. trapped families vs. stranded livestock at the same village)
-    from being merged just because they share a location.
+    Three steps, in this order:
+    1. Reports at the SAME known place are linked if their content is similar
+       enough (place_threshold).
+    2. Reports at two DIFFERENT known places are NEVER linked by similarity
+       alone. (An earlier version allowed this at a high similarity, and real
+       Intake output is often generic enough that unrelated reports from
+       different places looked alike, which chained into one giant cluster.)
+    3. A report with no resolved place is attached to its single best-matching
+       report, only if that match is very similar (no_place_threshold). Each
+       such report attaches to at most one cluster, so it can never bridge two
+       separate clusters together. Unresolved reports with no good match are
+       grouped only with each other.
     """
     n = len(extractions)
     uf = _UnionFind(n)
-    for i, j in itertools.combinations(range(n), 2):
-        sim = _dot(embeddings[i], embeddings[j])
-        place_i, place_j = extractions[i].get("place_id"), extractions[j].get("place_id")
-        if place_i and place_j and place_i == place_j:
-            if sim >= place_threshold:
-                uf.union(i, j)
-        elif sim >= no_place_threshold:
+    place_of = [e.get("place_id") for e in extractions]
+    resolved = [i for i in range(n) if place_of[i]]
+    unresolved = [i for i in range(n) if not place_of[i]]
+
+    for i, j in itertools.combinations(resolved, 2):
+        if place_of[i] == place_of[j] and _dot(embeddings[i], embeddings[j]) >= place_threshold:
             uf.union(i, j)
+
+    unattached = []
+    for u in unresolved:
+        best_idx, best_sim = None, 0.0
+        for r in resolved:
+            sim = _dot(embeddings[u], embeddings[r])
+            if sim > best_sim:
+                best_idx, best_sim = r, sim
+        if best_idx is not None and best_sim >= no_place_threshold:
+            uf.union(u, best_idx)
+        else:
+            unattached.append(u)
+
+    for a, b in itertools.combinations(unattached, 2):
+        if _dot(embeddings[a], embeddings[b]) >= no_place_threshold:
+            uf.union(a, b)
 
     groups: dict[int, list[int]] = {}
     for i in range(n):
@@ -236,17 +256,32 @@ def merge_cluster(reports: list[dict], extractions: list[dict]) -> dict:
 CLUSTER_MERGE_SYSTEM_PROMPT = """You are the Verification Agent for ReliefMesh AI, \
 a disaster-response system. You will be shown two GROUPS of reports that were \
 independently identified as being about the same real-world LOCATION during a \
-flood, but did not automatically merge into one group. Decide whether the two \
-groups are actually describing the SAME real-world incident (for example: one \
-group emphasizes a road being blocked and the other emphasizes people trapped, \
-but both are about the same flooding event at the same place) or two DIFFERENT, \
-unrelated incidents that simply happen to be at the same place (for example: \
-trapped people needing rescue vs. stranded livestock; a flooded shop vs. a \
-missing child).
+flood, but did not automatically merge into one group.
+
+Decide whether the two groups should be treated as ONE incident for dispatch \
+purposes, or as TWO SEPARATE incidents a coordinator would track and respond \
+to independently.
+
+They are the SAME incident only if they need essentially the same response \
+(for example: two accounts of the same trapped people, one emphasizing a \
+blocked road and the other emphasizing people needing rescue — still one \
+rescue operation. Or: an unverified rumor and a field officer's report that \
+confirms or denies it — the field report IS the resolution of the rumor).
+
+They are DIFFERENT incidents if they involve different people or things \
+affected, or need different resources — even if both are part of the same \
+broader flood at the same place. Being part of the same flood is NOT enough \
+by itself. For example: people needing rescue vs. livestock needing rescue \
+are DIFFERENT incidents (different beneficiaries), even though both are at \
+the same flooded village. A flooded shop and a missing child at the same \
+market are DIFFERENT incidents.
+
+When genuinely unsure, prefer keeping them SEPARATE: a coordinator can merge \
+two incidents after seeing both, but a wrongly-merged incident can hide one \
+of the two needs entirely.
 
 Respond with a single JSON object:
 {"same_incident": true or false, "reason": a short one-sentence explanation}"""
-
 
 def _same_incident_check(cluster_a: dict, cluster_b: dict, llm_client=None) -> tuple[bool, str]:
     client = llm_client or get_llm_client()
@@ -286,6 +321,7 @@ def merge_related_clusters_at_same_place(results: list[dict], now_iso: str, llm_
     cluster) and resolves exactly the cases pure similarity can't.
     """
     results = list(results)
+    rejected: set = set()      # remembers exact-membership pairs already answered "no"
     changed = True
     while changed:
         changed = False
@@ -294,11 +330,15 @@ def merge_related_clusters_at_same_place(results: list[dict], now_iso: str, llm_
             place_j = results[j]["merged"]["place_id"]
             if not place_i or place_i != place_j:
                 continue
+            ids_i = frozenset(r["id"] for r in results[i]["reports"])
+            ids_j = frozenset(r["id"] for r in results[j]["reports"])
+            key = frozenset((ids_i, ids_j))
+            if key in rejected:
+                continue    # already asked this exact pair of groups; don't ask again
             same, reason = _same_incident_check(results[i], results[j], llm_client=llm_client)
             if verbose:
                 print(f"[verification] same-place check at {place_i}: "
-                      f"{results[i]['merged']['report_ids']} vs {results[j]['merged']['report_ids']} "
-                      f"-> same_incident={same} ({reason})")
+                      f"{sorted(ids_i)} vs {sorted(ids_j)} -> same_incident={same} ({reason})")
             if same:
                 combined = _recompute_cluster(
                     results[i]["reports"] + results[j]["reports"],
@@ -309,8 +349,8 @@ def merge_related_clusters_at_same_place(results: list[dict], now_iso: str, llm_
                 results = [r for k, r in enumerate(results) if k not in (i, j)] + [combined]
                 changed = True
                 break
+            rejected.add(key)
     return results
-
 
 def verify_reports(reports: list[dict], conn, now_iso: str = None,
                     llm_client=None, embedder=None, intake_results: list[dict] = None,

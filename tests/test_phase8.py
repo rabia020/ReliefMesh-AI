@@ -167,6 +167,50 @@ def test_cluster_unresolved_place_needs_very_high_similarity():
     assert len(far) == 2
 
 
+
+def test_cluster_different_known_places_never_merge_even_when_identical():
+    """Regression test for a real bug found in the Phase 9 full-scale run:
+    generic Intake output made reports at DIFFERENT known places look
+    identical, and they chained into one 26-report cluster."""
+    extractions = [_extraction(place_id="L-SADIQ"), _extraction(place_id="L-MODEL")]
+    clusters = cluster_reports(extractions, [[1.0, 0.0], [1.0, 0.0]])    # similarity 1.0
+    assert len(clusters) == 2
+
+
+def test_cluster_unresolved_report_cannot_bridge_two_places():
+    """An unresolved report that looks identical to reports at two different
+    places must attach to only ONE of them, never merge the two places."""
+    extractions = [
+        _extraction(place_id="L-SADIQ"),
+        _extraction(place_id="L-MODEL"),
+        _extraction(place_id=None),
+    ]
+    embeddings = [[1.0, 0.0], [1.0, 0.0], [1.0, 0.0]]
+    clusters = cluster_reports(extractions, embeddings)
+    assert len(clusters) == 2
+    sizes = sorted(len(c) for c in clusters)
+    assert sizes == [1, 2]
+
+
+def test_cluster_unresolved_report_attaches_to_its_best_match():
+    extractions = [
+        _extraction(place_id="L-SADIQ"),
+        _extraction(place_id="L-MODEL"),
+        _extraction(place_id=None),
+    ]
+    embeddings = [[1.0, 0.0], [0.0, 1.0], [0.98, 0.199]]     # closest to report 0
+    clusters = cluster_reports(extractions, embeddings)
+    together = next(c for c in clusters if 2 in c)
+    assert set(together) == {0, 2}
+
+
+def test_cluster_low_similarity_unresolved_report_stays_alone():
+    extractions = [_extraction(place_id="L-SADIQ"), _extraction(place_id=None)]
+    clusters = cluster_reports(extractions, [[1.0, 0.0], [0.6, 0.8]])    # similarity 0.6 < 0.80
+    assert len(clusters) == 2
+
+
+
 def test_cluster_transitive_grouping_of_three_reports():
     extractions = [_extraction(place_id="L-BRIDGE") for _ in range(3)]
     embeddings = [[1.0, 0.0], [0.9, 0.1], [0.85, 0.15]]
@@ -348,7 +392,44 @@ def test_verify_reports_keeps_gujjar_hard_negative_separate(db):
     assert len(results) == 2, "trapped family vs. stranded livestock must not be merged"
 
 
+
+def test_merge_related_clusters_never_reasks_a_rejected_pair():
+    """Regression test for a real bug found in a Phase 9 live run: the same
+    pair of groups was asked twice (after an unrelated merge elsewhere caused
+    the loop to restart) and got a DIFFERENT answer each time (LLM
+    non-determinism). A rejected pair must be remembered and never re-asked."""
+    now = "2026-08-14T09:30:00+05:00"
+
+    def mk(rid, place):
+        return {"reports": [_report(id=rid, timestamp=now)], "extractions": [_extraction(place_id=place)],
+                "merged": {"place_id": place, "report_count": 1},
+                "evidence_confidence": 50, "conflict_detected": False, "conflict_note": None}
+
+    a, b = mk("R-A", "L-X"), mk("R-B", "L-X")
+    c, d = mk("R-C", "L-Y"), mk("R-D", "L-Y")
+
+    class FlakyLLM:
+        def __init__(self):
+            self.calls = 0
+        def complete_json(self, prompt, system=None, **kwargs):
+            self.calls += 1
+            if "R-C" in prompt or "R-D" in prompt:
+                return {"same_incident": True, "reason": "unrelated pair merges"}
+            # If asked more than once, flips from False to True - must never happen.
+            return {"same_incident": self.calls > 5, "reason": "flip-flop"}
+
+    llm = FlakyLLM()
+    results = merge_related_clusters_at_same_place([a, b, c, d], now, llm_client=llm)
+    ids_per_group = [sorted(r["id"] for r in res["reports"]) for res in results]
+    assert ["R-A"] in ids_per_group and ["R-B"] in ids_per_group, (
+        "a rejected pair must stay separate even after unrelated merges elsewhere")
+    assert llm.calls == 2, f"expected exactly 2 calls (one per pair), got {llm.calls}"
+
+
 def test_verify_reports_returns_empty_list_for_no_reports(db):
+
+
+
     assert verify_reports([], db) == []
 
 

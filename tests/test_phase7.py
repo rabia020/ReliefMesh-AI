@@ -151,6 +151,14 @@ def test_gazetteer_short_word_does_not_false_match_inside_longer_word(db):
     assert result["place_id"] is None
 
 
+def test_gazetteer_matches_inflected_urdu_bus_stand(db):
+    """Regression test from the Phase 9 full-scale run: Urdu reports say
+    'پرانے بس اڈے' (inflected), which the gazetteer previously missed."""
+    places = load_places(db)
+    result = match_location("پرانے بس اڈے کے پاس دیوار گر گئی ہے", places)
+    assert result["place_id"] == "L-BUSSTAND"
+
+
 def test_gazetteer_matches_roman_urdu_alias(db):
     places = load_places(db)
     result = match_location("Sadiq Abad village", places)
