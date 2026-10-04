@@ -35,12 +35,14 @@ In a flood, reports arrive in different languages, some are duplicates, some are
 
 ## Screenshots
 
+![Command Center](docs/screenshots/command_center.png)
+
 | | |
 |---|---|
-| ![Incident Intelligence](docs/screenshots/02-incident-intelligence.png) **Incident Intelligence**: merged reports, confidence and priority reasoning | ![Live Map](docs/screenshots/03-live-map.png) **Live Map**: incidents, blocked roads and routes |
-| ![Optimization](docs/screenshots/04-resource-optimization.png) **Resource Optimization**: cost and time trade-off | ![Copilot](docs/screenshots/05-ai-copilot.png) **AI Copilot**: grounded answers with sources |
-| ![Approval Center](docs/screenshots/06-approval-center.png) **Approval Center**: a named human decides | ![Audit Log](docs/screenshots/07-audit-log.png) **Audit Log**: append-only trail |
-| ![New scenario](docs/screenshots/08-test-new-scenario.png) **Test a new scenario**: preview before saving | ![Image](docs/screenshots/09-image-intelligence.png) **Image Intelligence**: photo analysis |
+| ![Incident Intelligence](docs/screenshots/incident_intelligence.png) **Incident Intelligence**: merged reports, confidence and priority reasoning | ![Live Map](docs/screenshots/live_map2.png) **Live Map**: incidents, blocked roads and routes |
+| ![Copilot](docs/screenshots/ai_copilot.png) **AI Copilot**: grounded answers with sources | ![Approval Center](docs/screenshots/approval_center.png) **Approval Center**: a named human decides |
+| ![Audit Log](docs/screenshots/audit-log.png) **Audit Log**: append-only trail | ![New scenario](docs/screenshots/test-new-scenario.png) **Test a new scenario**: preview before saving |
+| ![Image Intelligence](docs/screenshots/image_intelligence.png) **Image Intelligence**: photo analysis | |
 
 ## How it works
 
