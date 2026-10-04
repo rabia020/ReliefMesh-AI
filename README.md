@@ -6,9 +6,9 @@ ReliefMesh AI turns messy field reports into verified incidents, ranks them by p
 
 The demo runs on a simulated Kabul River flood. All data is simulated.
 
-**Live demo:** <your Streamlit link>  |  **API:** <your Render link>/docs
+**Live demo:** [reliefmesh-ai.streamlit.app](https://reliefmesh-ai.streamlit.app/)  |  **API:** [reliefmesh-backend-ecwh.onrender.com/docs](https://reliefmesh-backend-ecwh.onrender.com/docs)
 
-![Command Center](docs/screenshots/01-command-center.png)
+The first load can take about a minute while the free-tier backend wakes up.
 
 ---
 
