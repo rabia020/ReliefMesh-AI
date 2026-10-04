@@ -1,6 +1,3 @@
-
-# ReliefMesh AI
-
 streamlit>=1.40
 fastapi>=0.115
 uvicorn[standard]>=0.30
@@ -11,8 +8,11 @@ pytest>=8.0
 pillow>=10.0
 google-genai>=0.3.0
 sentence-transformers>=2.2
+fastembed
 crewai>=1.0.0
 mcp
-httpx
 python-multipart
 ortools
+pandas
+folium
+streamlit-folium
