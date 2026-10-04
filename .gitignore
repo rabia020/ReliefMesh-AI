@@ -23,3 +23,19 @@ __pycache__/
 Thumbs.db
 
 data/cache/
+
+models_cache/
+.venv-lean/
+
+   tests/
+data/sample_images/
+.freebuff/
+frontend/app_old.py
+models_cache/
+.venv-lean/
+
+
+tests/
+strip_comments.py
+measure_memory.py
+make_backend_requirements.py

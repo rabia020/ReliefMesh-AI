@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: reliefmesh-backend
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements-backend.txt && python scripts/warm_embedder.py
+    startCommand: python deploy_start.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.13.0"
+      - key: GROQ_API_KEY
+        sync: false

@@ -1,10 +1,11 @@
-"""Sentence-embedding helper for the Verification Agent (Phase 8).
+"""Sentence-embedding helper.
 
-Uses Sentence Transformers, per your spec. The model loads lazily (only the
-first time it's actually needed) and only once per process — loading it is
-the slow part; encoding a handful of reports after that is fast even on a
-laptop CPU. It downloads its weights from Hugging Face the first time you
-run it, then caches them locally, so it needs internet once, not every run.
+The model loads lazily (only the first time it is needed) and only once per
+process. It downloads its weights the first time it runs, then caches them
+locally, so it needs internet once, not every run.
+
+The light fastembed runtime is used when it is installed (for example on the
+hosted backend). Otherwise sentence-transformers is used.
 """
 
 DEFAULT_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
@@ -18,24 +19,29 @@ def get_model_name() -> str:
 
 
 def get_embedder():
-    """Loads (once) and returns the real sentence-transformers model.
-    Tests never call this — they inject a fake embedder instead."""
+    """Loads (once) and returns the embedding model.
+    Tests never call this. They inject a fake embedder instead."""
     global _MODEL
     if _MODEL is None:
         try:
-            from sentence_transformers import SentenceTransformer
-        except ImportError as error:
-            raise RuntimeError(
-                "sentence-transformers is not installed. Run: pip install sentence-transformers"
-            ) from error
-        _MODEL = SentenceTransformer(get_model_name())
+            from agents.fast_embedder import FastEmbedder
+
+            _MODEL = FastEmbedder(get_model_name())
+        except ImportError:
+            try:
+                from sentence_transformers import SentenceTransformer
+            except ImportError as error:
+                raise RuntimeError(
+                    "No embedding library is installed. Run: pip install fastembed"
+                ) from error
+            _MODEL = SentenceTransformer(get_model_name())
     return _MODEL
 
 
 def embed_texts(texts, embedder=None):
     """Returns one normalized (unit-length) embedding vector per text.
     Because vectors are normalized, cosine similarity between two of them
-    is just their dot product — see agents/verification_agent.py."""
+    is just their dot product. See agents/verification_agent.py."""
     model = embedder or get_embedder()
     vectors = model.encode(list(texts), normalize_embeddings=True)
     return [[float(x) for x in vector] for vector in vectors]

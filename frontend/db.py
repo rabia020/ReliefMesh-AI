@@ -102,6 +102,43 @@ def inject_demo_reports():
 def reset_demo_data():
     return _post("/admin/reset-demo")
 
+
+def run_pipeline(persist: bool = True):
+    """Runs the Phase 13 crew. LLM + routing can take a while."""
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/pipeline/run",
+            json={"persist": persist},
+            timeout=180,
+        )
+    except requests.exceptions.RequestException as error:
+        raise BackendError(f"Could not reach the backend at {BACKEND_URL}: {error}") from error
+    if not response.ok:
+        try:
+            detail = response.json().get("detail", response.text)
+        except ValueError:
+            detail = response.text
+        raise BackendError(detail)
+    return response.json()
+
+
+def decide_action(action_id: int, decision: str, decided_by: str = "human:coordinator", note: str = ""):
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/actions/{action_id}/decide",
+            json={"decision": decision, "decided_by": decided_by, "note": note},
+            timeout=15,
+        )
+    except requests.exceptions.RequestException as error:
+        raise BackendError(f"Could not reach the backend at {BACKEND_URL}: {error}") from error
+    if not response.ok:
+        try:
+            detail = response.json().get("detail", response.text)
+        except ValueError:
+            detail = response.text
+        raise BackendError(detail)
+    return response.json()
+
 def test_llm(prompt: str = "Reply with exactly one word: OK"):
     """Calls POST /llm/test. Uses a longer timeout, since LLM calls are slower
     than the other endpoints."""

@@ -51,6 +51,12 @@ def _capability_bonus(incident: dict, resource: dict) -> float:
 
 
 def rank_resources(incident: dict, candidates: list[dict]) -> list[dict]:
+
+        # No coordinates -> we cannot measure distance, so we cannot rank by distance.
+    if incident.get("lat") is None or incident.get("lon") is None:
+        return []
+
+
     """candidates: resources of ONE type (already filtered by caller). Returns
     them annotated with distance_km, suitability_score, and sorted
     best-first. Unavailable resources are kept (for visibility, so a

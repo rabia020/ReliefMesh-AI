@@ -12,7 +12,11 @@ from database.connection import get_connection
 from database.seed import init_database
 from pydantic import BaseModel
 
+from agents.crew import describe_crew
+from agents.supervisor import run_received_reports
 from llm.client import LLMError, get_llm_client
+from backend.dashboard_routes import build_dashboard_router
+from backend.scenario_routes import build_scenario_router
 
 app = FastAPI(
     title=config.APP_NAME,
@@ -20,9 +24,7 @@ app = FastAPI(
     description="Disaster-response coordination backend (simulated demo data).",
 )
 
-# Hackathon setting: the frontend (Streamlit Cloud) and backend (Render) run as
-# separate services with no login system, so we allow any origin to call this API.
-# Tighten this before any real deployment.
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -168,6 +170,73 @@ def llm_test(body: LLMTestRequest):
     }
 
 
+# -------------------------------------------------------------- crew / pipeline
+@app.get("/crew")
+def crew_info():
+    """CrewAI role list and safety rules (Phase 13)."""
+    return describe_crew()
+
+
+class PipelineRunRequest(BaseModel):
+    persist: bool = True
+
+
+@app.post("/pipeline/run")
+def pipeline_run(body: PipelineRunRequest = PipelineRunRequest(), conn=Depends(get_db)):
+    """Runs Intake → Verification → Priority → Resource → Routing → Reporter
+    → Human Review on every report with status='received'.
+
+    Creates PROPOSED actions only. Does not dispatch resources.
+    """
+    persist = body.persist
+    try:
+        result = run_received_reports(conn, persist=persist)
+    except LLMError as error:
+        raise HTTPException(status_code=502, detail=str(error))
+    return {
+        "cluster_count": len(result["clusters"]),
+        "incident_ids": [c["incident"]["id"] for c in result["clusters"]],
+        "proposed_action_count": sum(1 for c in result["clusters"] if c.get("proposed_action")),
+        "trace": result.get("trace", []),
+        "disclaimer": result.get(
+                "disclaimer",
+                "ReliefMesh is a decision-support prototype using simulated data. "
+                "It does not replace emergency services or trained coordinators.",
+            ),
+        "clusters": [
+            {
+                "incident": c["incident"],
+                "proposed_action": c["proposed_action"],
+                "routing": c["routing"],
+                "trace": c["trace"],
+            }
+            for c in result["clusters"]
+        ],
+    }
+
+
+class ActionDecisionRequest(BaseModel):
+    decision: str
+    decided_by: str = "human:coordinator"
+    note: str = ""
+
+
+@app.post("/actions/{action_id}/decide")
+def decide(action_id: int, body: ActionDecisionRequest, conn=Depends(get_db)):
+    """Human approval gate (Phase 17). decision: approve | reject | request_info."""
+    try:
+        return q.decide_action(
+            conn, action_id, body.decision, body.decided_by, body.note,
+        )
+    except KeyError as error:
+        raise HTTPException(status_code=404, detail=str(error))
+    except ValueError as error:
+        raise HTTPException(status_code=400, detail=str(error))
+    except Exception as error:
+        # SQLite CHECK constraints (e.g. decided_by must be human:*)
+        raise HTTPException(status_code=400, detail=str(error))
+
+
 # ------------------------------------------------------------------- admin
 @app.post("/admin/reset-demo")
 def reset_demo():
@@ -176,3 +245,25 @@ def reset_demo():
     would overwrite the real database file."""
     counts = init_database()
     return {"status": "reset", "row_counts": counts}
+
+
+from backend.approval_routes import build_approval_router
+
+app.include_router(build_approval_router(get_db))
+
+from backend.image_routes import build_image_router
+
+app.include_router(build_image_router(get_db))
+
+from backend.optimize_routes import build_optimize_router
+
+app.include_router(build_optimize_router(get_db))
+
+from backend.copilot_routes import router as copilot_router
+
+app.include_router(copilot_router)
+from backend.map_routes import build_map_router
+
+app.include_router(build_map_router(get_db))
+app.include_router(build_dashboard_router(get_db))
+app.include_router(build_scenario_router(get_db))

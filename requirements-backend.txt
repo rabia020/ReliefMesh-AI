@@ -1,0 +1,12 @@
+fastapi==0.141.1
+uvicorn==0.53.0
+httpx==0.28.1
+mcp==1.28.1
+ortools==9.15.6755
+pillow==12.3.0
+pydantic==2.12.5
+python-dotenv==1.2.3
+python-multipart==0.0.32
+requests==2.34.2
+fastembed
+numpy

@@ -11,3 +11,8 @@ pytest>=8.0
 pillow>=10.0
 google-genai>=0.3.0
 sentence-transformers>=2.2
+crewai>=1.0.0
+mcp
+httpx
+python-multipart
+ortools

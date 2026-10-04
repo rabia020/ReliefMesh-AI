@@ -1,0 +1,13 @@
+.venv
+.git
+.env
+__pycache__
+*.pyc
+.pytest_cache
+tests
+frontend
+data/*.db
+data/sample_images
+preflight.py
+measure_memory.py
+make_backend_requirements.py

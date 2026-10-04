@@ -41,10 +41,29 @@ def render_command_center():
                 ids = db.inject_demo_reports()
                 st.success(f"Injected {len(ids)} reports: {', '.join(ids)}")
                 st.rerun()
+    elif summary.get("received_reports", 0) > 0:
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            st.warning(
+                f"🧠 {summary['received_reports']} injected reports are waiting for the "
+                "CrewAI pipeline (Intake → Verification → Priority → Resource → "
+                "Routing → Reporter → Human Review)."
+            )
+        with col2:
+            if st.button("Run AI pipeline", use_container_width=True):
+                with st.spinner("Running specialist agents... this can take a minute."):
+                    result = db.run_pipeline()
+                st.success(
+                    f"Created {result['cluster_count']} incident(s): "
+                    f"{', '.join(result['incident_ids']) or 'none'}. "
+                    f"{result['proposed_action_count']} proposed action(s) "
+                    "waiting in Approval Center. Nothing was dispatched."
+                )
+                st.rerun()
     else:
         st.success(
-            "✅ All citizen reports have been injected. "
-            "(They will turn into incidents once the Intake Agent is built in Phase 7.)"
+            "✅ All injected reports have been processed by the crew "
+            "(or none are waiting)."
         )
 
     st.subheader("Situation summary")
@@ -235,11 +254,37 @@ def render_copilot_placeholder():
 
 def render_approval_placeholder():
     st.header("✅ Approval Center")
-    st.info(
-        "Coming in Phase 17 (Human-in-the-Loop). AI-proposed actions will appear here "
-        "with Approve, Reject, and Request More Information buttons. No action is ever "
-        "executed without a human decision — the database itself enforces this."
+    st.caption(
+        "AI proposes. A human decides. ReliefMesh never auto-dispatches real-world teams. "
+        "SIMULATED demo data only."
     )
+
+    pending = db.get_actions(status="proposed")
+    if not pending:
+        st.info("No pending AI actions. Run the AI pipeline from Command Center after injecting reports.")
+        return
+
+    for action in pending:
+        with st.container(border=True):
+            st.subheader(action["title"])
+            st.write(f"**Incident:** {action['incident_id']}")
+            st.write(f"**Proposed by:** {action['proposed_by']} at {action['proposed_at']}")
+            st.write("**Reason:**")
+            st.text(action["reason"])
+            st.write(f"**Resources:** {', '.join(action.get('resource_ids') or []) or '—'}")
+            c1, c2, c3 = st.columns(3)
+            if c1.button("APPROVE", key=f"approve-{action['id']}", use_container_width=True):
+                db.decide_action(action["id"], "approve")
+                st.success("Approved and recorded as executed (simulated).")
+                st.rerun()
+            if c2.button("REJECT", key=f"reject-{action['id']}", use_container_width=True):
+                db.decide_action(action["id"], "reject")
+                st.warning("Rejected. No resources were dispatched.")
+                st.rerun()
+            if c3.button("REQUEST MORE INFORMATION", key=f"info-{action['id']}", use_container_width=True):
+                db.decide_action(action["id"], "request_info")
+                st.info("Marked as needing more information.")
+                st.rerun()
 
 
 def render_llm_test():

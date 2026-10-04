@@ -141,6 +141,20 @@ def list_hospitals(conn):
     return _rows(conn.execute("SELECT * FROM hospitals ORDER BY id"))
 
 
+def list_blocked_roads(conn):
+    return _rows(conn.execute("SELECT * FROM blocked_roads ORDER BY id"))
+
+
+def get_place(conn, place_id):
+    row = conn.execute("SELECT * FROM places WHERE id = ?", (place_id,)).fetchone()
+    return _to_dict(row)
+
+
+def get_action(conn, action_id):
+    row = conn.execute("SELECT * FROM actions WHERE id = ?", (action_id,)).fetchone()
+    return _to_dict(row)
+
+
 def get_command_center_summary(conn) -> dict:
     def one(sql):
         return conn.execute(sql).fetchone()[0] or 0
@@ -169,6 +183,7 @@ def get_command_center_summary(conn) -> dict:
         "hospital_beds_available": one("SELECT SUM(available_beds) FROM hospitals"),
         "icu_beds_available": one("SELECT SUM(icu_available) FROM hospitals"),
         "queued_reports": one("SELECT COUNT(*) FROM reports WHERE status = 'queued'"),
+        "received_reports": one("SELECT COUNT(*) FROM reports WHERE status = 'received'"),
         "pending_actions": one("SELECT COUNT(*) FROM actions WHERE status = 'proposed'"),
     }
 
@@ -222,3 +237,138 @@ def list_actions(conn, status=None, incident_id=None):
         params.append(incident_id)
     sql += " ORDER BY id DESC"
     return _rows(conn.execute(sql, params))
+
+
+def next_pipeline_incident_id(conn, merged: dict) -> str:
+    """Picks an id for a newly created pipeline incident.
+
+    The demo's missing baseline incident is INC-001 (Kabul River Bridge,
+    trapped residents). If that slot is still empty and this cluster matches
+    it, reuse INC-001 so the 3-minute demo always produces the same id.
+    Otherwise allocate INC-P-001, INC-P-002, ...
+    """
+    existing = {row[0] for row in conn.execute("SELECT id FROM incidents")}
+    if (
+        merged.get("place_id") == "L-BRIDGE"
+        and merged.get("incident_type") == "trapped_residents"
+        and "INC-001" not in existing
+    ):
+        return "INC-001"
+    n = 1
+    while f"INC-P-{n:03d}" in existing:
+        n += 1
+    return f"INC-P-{n:03d}"
+
+
+def save_pipeline_incident(conn, incident: dict, report_ids: list, actor="ai:supervisor") -> str:
+    """Inserts one pipeline-created incident and links its reports.
+
+    Does not dispatch resources. That only happens after a human approval
+    (Phase 17 / decide_action).
+    """
+    incident_id = incident["id"]
+    conn.execute(
+        "INSERT INTO incidents (id, title, incident_type, place_id, location_name, lat, lon, "
+        "estimated_affected, vulnerable_people, medical_emergency, medical_severity, isolation, "
+        "required_resources, priority, priority_score, evidence_confidence, status, conflict_note, "
+        "summary, first_report_time, last_report_time, origin) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pipeline')",
+        (
+            incident_id,
+            incident["title"],
+            incident["incident_type"],
+            incident.get("place_id"),
+            incident.get("location_name") or "Unknown location",
+            incident.get("lat") if incident.get("lat") is not None else 0.0,
+            incident.get("lon") if incident.get("lon") is not None else 0.0,
+            incident.get("estimated_affected", 0),
+            incident.get("vulnerable_people", 0),
+            1 if incident.get("medical_emergency") else 0,
+            incident.get("medical_severity", 0),
+            incident.get("isolation", 0),
+            json.dumps(incident.get("required_resources") or [], ensure_ascii=False),
+            incident.get("priority"),
+            incident.get("priority_score"),
+            incident.get("evidence_confidence"),
+            incident.get("status", "open"),
+            incident.get("conflict_note"),
+            incident.get("summary"),
+            incident.get("first_report_time"),
+            incident.get("last_report_time"),
+        ),
+    )
+    if report_ids:
+        conn.executemany(
+            "UPDATE reports SET status = 'processed', incident_id = ? WHERE id = ?",
+            [(incident_id, rid) for rid in report_ids],
+        )
+    log_audit(
+        conn,
+        actor=actor,
+        event_type="incident_created",
+        incident_id=incident_id,
+        message=f"Pipeline created incident {incident_id}: {incident['title']}",
+        details={
+            "priority": incident.get("priority"),
+            "evidence_confidence": incident.get("evidence_confidence"),
+            "report_ids": report_ids,
+        },
+    )
+    return incident_id
+
+
+def decide_action(conn, action_id: int, decision: str, decided_by: str, note: str = "") -> dict:
+    """Human-in-the-loop decision. AI callers are rejected by the schema
+    (`decided_by` must start with 'human:'). Never call this from an agent."""
+    if not decided_by or not str(decided_by).startswith("human:"):
+        raise ValueError("Only a human actor (id starting with 'human:') can decide an action.")
+
+    allowed = {"approve": "executed", "reject": "rejected", "request_info": "info_requested"}
+    if decision not in allowed:
+        raise ValueError(f"Unknown decision '{decision}'. Use approve, reject, or request_info.")
+
+    action = get_action(conn, action_id)
+    if action is None:
+        raise KeyError(f"Action {action_id} not found")
+    if action["status"] not in ("proposed", "info_requested"):
+        raise ValueError(f"Action {action_id} is already {action['status']}")
+
+    new_status = allowed[decision]
+    now = utc_now_iso()
+    executed_at = now if new_status == "executed" else None
+    conn.execute(
+        "UPDATE actions SET status = ?, decided_by = ?, decided_at = ?, "
+        "decision_note = ?, executed_at = ?, result = ? WHERE id = ?",
+        (
+            new_status,
+            decided_by,
+            now,
+            note or None,
+            executed_at,
+            "executed after human approval" if new_status == "executed" else None,
+            action_id,
+        ),
+    )
+
+    if new_status == "executed":
+        for resource_id in action.get("resource_ids") or []:
+            conn.execute(
+                "UPDATE resources SET status = 'deployed', current_assignment = ? WHERE id = ?",
+                (action["title"], resource_id),
+            )
+
+    event = {
+        "approve": "action_approved",
+        "reject": "action_rejected",
+        "request_info": "action_info_requested",
+    }[decision]
+    log_audit(
+        conn,
+        actor=decided_by,
+        event_type=event,
+        incident_id=action["incident_id"],
+        action_id=action_id,
+        message=f"{decision}: {action['title']}",
+        details={"note": note, "resource_ids": action.get("resource_ids")},
+    )
+    return get_action(conn, action_id)
